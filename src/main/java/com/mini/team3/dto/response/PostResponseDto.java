@@ -2,6 +2,7 @@ package com.mini.team3.dto.response;
 
 import com.mini.team3.entity.Post;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.mini.team3.entity.Comment;
@@ -9,6 +10,7 @@ import com.mini.team3.entity.Comment;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
