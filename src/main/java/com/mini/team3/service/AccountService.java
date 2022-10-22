@@ -4,6 +4,7 @@ import com.mini.team3.dto.request.AccountRequestDto;
 import com.mini.team3.dto.request.LoginRequestDto;
 import com.mini.team3.dto.response.GlobalResponseDto;
 import com.mini.team3.entity.Account;
+import com.mini.team3.entity.MyPage;
 import com.mini.team3.entity.RefreshToken;
 import com.mini.team3.jwt.dto.TokenDto;
 import com.mini.team3.jwt.util.JwtUtil;
@@ -44,7 +45,10 @@ public class AccountService {
         accountRequestDto.setEncodePwd(passwordEncoder.encode(accountRequestDto.getAccountPw()));
 
         Account account = new Account(accountRequestDto);
+        MyPage myPage = new MyPage(account);
+
         accountRepository.save(account);
+
 
         return new GlobalResponseDto("Success signup", HttpStatus.OK.value());
     }

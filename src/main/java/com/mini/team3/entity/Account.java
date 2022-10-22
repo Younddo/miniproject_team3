@@ -32,6 +32,12 @@ public class Account {
     @NotBlank
     private Boolean accountLeader;
 
+    @OneToMany(mappedBy = "account")
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "account")
+    private List<Comment> comments;
+
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PostLike> postLikes = new ArrayList<>();
@@ -39,7 +45,7 @@ public class Account {
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="myPageId")
     private MyPage myPage;
 

@@ -1,6 +1,6 @@
 package com.mini.team3.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mini.team3.dto.request.MypageRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +21,18 @@ public class MyPage {
     @JoinColumn(name = "accountId")
     private Account account;
 
+    public MyPage(Account account){
+        this.account=account;
+    }
+
+    public void createOneSentence(MypageRequestDto mypageRequestDto, Account account){
+        this.oneSentence= mypageRequestDto.getOneSentence();
+        this.account=account;
+    }
+
+    public void updateOneSentence(MypageRequestDto mypageRequestDto, Account account){
+        this.oneSentence= mypageRequestDto.getOneSentence();
+        this.account=account;
+    }
 
 }

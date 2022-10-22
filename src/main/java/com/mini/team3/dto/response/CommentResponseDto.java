@@ -1,5 +1,6 @@
 package com.mini.team3.dto.response;
 
+import com.mini.team3.entity.Comment;
 import lombok.Getter;
 
 @Getter
@@ -12,5 +13,10 @@ public class CommentResponseDto {
         this.postId = postId;
         this.commentId = commentId;
         this.comment = comment;
+    }
+
+    public CommentResponseDto(Comment comment){
+        this.comment=comment.getComment();
+
     }
 }
