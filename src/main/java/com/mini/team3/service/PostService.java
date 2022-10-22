@@ -13,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,22 +68,62 @@ public class PostService {
         }
     }
 
-//    // 게시물 전체 조회
-//    public List<Post> findAllPosts(String sort, String accountTeam, String tag) {
-//        if () {
-//            //디폴트일 때
-//            List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
-//        }else {
-//            //
-//            List<Post> postList = postRepository.findPostsByTagAndAccount_AccountTeam(tag, accountTeam);
-//        }
-//
-//
-//
-//        return postList
-//    }
+    // 게시물 전체 조회
+    // 1. 디폴트 -> 시간순, 전체, 전체
+    // 2. 시간순 -> 필터
+    // 3. 좋아요순 -> 필터
+    public List<Post> findAllPosts(String sort, String accountTeam, String tag) {
+        List<Post> postsList = new ArrayList<>();
+        //시간순 일 때
+        if (sort.equals("최신순")) {
+            if (accountTeam.equals("All")) {
+                if (tag.equals("All")){
+                    postsList = postRepository.findAllByOrderByCreatedAtDesc();
+                }else {
+                    postsList = postRepository.findPostsByTagOrderByCreatedAtDesc(tag);
+                }
+            }else {
+                if (tag.equals("All")) {
+                    postsList = postRepository.findPostsByAccount_AccountTeamOrderByCreatedAtDesc(accountTeam);
+                }else {
+                    postsList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByCreatedAtDesc(accountTeam, tag);
+                }
+            }
+        }else if (sort.equals("좋아요순")){
+            if(accountTeam.equals("All")) {
+                if (tag.equals("All")) {
+                    postsList = postRepository.findAllByOrderByPostLikeCountDesc();
+                } else {
+                    postsList = postRepository.findPostsByTagOrderByPostLikeCountDesc(tag);
+                }
+            } else {
+                if (tag.equals("All")) {
+                    postsList = postRepository.findPostsByAccount_AccountTeamOrderByPostLikeCountDesc(accountTeam);
+                } else {
+                    postsList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDesc(accountTeam, tag);
+                }
+            }
+        }
+        return postsList;
+    }
 
-    // 우리 조 게시글 조회
-//    public List<Post> findTeamPosts(String sort, String accountTeam, String tag) {
-//    }
+//     우리 조 게시글 조회
+    public List<Post> findTeamPosts(String sort, String accountTeam, String tag) {
+        List<Post> postList =  new ArrayList<>();
+        if (sort.equals("최신순")){
+            if (tag.equals("All")) {
+                postList = postRepository.findPostsByAccount_AccountTeamOrderByCreatedAtDesc(accountTeam);
+            } else {
+                postList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByCreatedAtDesc(accountTeam, tag);
+            }
+
+        } else if (sort.equals("좋아요순")){
+            if (tag.equals("All")){
+                postList = postRepository.findPostsByAccount_AccountTeamOrderByPostLikeCountDesc(accountTeam);
+            }else{
+                postList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDesc(accountTeam, tag);
+            }
+        }
+        return postList;
+    }
 }
