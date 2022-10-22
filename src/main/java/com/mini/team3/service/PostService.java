@@ -10,7 +10,11 @@ import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +63,22 @@ public class PostService {
         }
     }
 
+//    // 게시물 전체 조회
+//    public List<Post> findAllPosts(String sort, String accountTeam, String tag) {
+//        if () {
+//            //디폴트일 때
+//            List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
+//        }else {
+//            //
+//            List<Post> postList = postRepository.findPostsByTagAndAccount_AccountTeam(tag, accountTeam);
+//        }
+//
+//
+//
+//        return postList
+//    }
 
+    // 우리 조 게시글 조회
+//    public List<Post> findTeamPosts(String sort, String accountTeam, String tag) {
+//    }
 }

@@ -36,13 +36,16 @@ public class Post extends TimeStamped {
     @Column(nullable = false)
     private String tag;
 
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-//    private List<Comment> comments = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "post")
-//    private List<PostLike> like = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
 
-    public Post (PostRequestDto postRequestDto) {
+    @OneToMany(mappedBy = "post")
+    private List<PostLike> postLikes = new ArrayList<>();
+
+    @Column(nullable = false)
+    private int postLikeCount;
+
+    public Post (PostRequestDto postRequestDto, Account account) {
         this.account = account;
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();

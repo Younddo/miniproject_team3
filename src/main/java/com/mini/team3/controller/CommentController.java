@@ -31,11 +31,9 @@ public class CommentController {
     }
 
     @GetMapping("/{postId}/comments/{commentId}/like")
-    public ResponseEntity likeComment(@PathVariable Long postId,
-                                      @PathVariable Long commentId,
-                                      @AuthenticationPrincipal UserDetailsImpl userDetails
-                                      ) {
-        return commentService.likeComment(postId, commentId, userDetails.getAccount());
+    public ResponseEntity likeComment(@PathVariable Long commentId,
+                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.likeComment(commentId, userDetails.getAccount());
     }
 
 }

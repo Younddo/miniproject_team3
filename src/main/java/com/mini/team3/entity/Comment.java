@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -13,22 +15,31 @@ import javax.persistence.*;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long commentId;
+    private Long commentId;
 
     @Column(nullable = false)
-    String comment;
+    private String comment;
 
     @JoinColumn(nullable = false)
     @ManyToOne
-    Post post;
+    private Post post;
 
     @JoinColumn(nullable = false)
     @ManyToOne
-    Account account;
+    private Account account;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    private List<CommentLike> commentLikes = new ArrayList<>();
+
+    private int commentLikeSize;
 
     public Comment(CommentRequestDto commentRequestDto, Post post, Account account) {
         this.comment = commentRequestDto.getComments();
         this.post = post;
         this.account = account;
+    }
+
+    public void updateSize(int commentLikeSize) {
+        this.commentLikeSize = commentLikeSize;
     }
 }

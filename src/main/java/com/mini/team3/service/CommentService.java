@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class CommentService {
@@ -42,7 +44,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
-        if (comment.getAccount().getAccountId().equals(currentAccount.getAccountId())){
+        if (comment.getAccount().getId().equals(currentAccount.getId())){
             commentRepository.deleteById(commentId);
             return new ResponseEntity(
                     new DataResponseDto("댓글 삭제가 완료되었습니다."),
@@ -51,29 +53,31 @@ public class CommentService {
         }else {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
         }
-
     }
 
     @Transactional
-    public ResponseEntity likeComment(Long postId, Long commentId, Account currentAccount) {
-
-        //굳이 다 찾아와서 넣어야하나!?
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글 없음"));
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글 없음"));
+    public ResponseEntity likeComment(Long commentId, Account currentAccount) {
 
         String msg;
-        if (!commentRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getAccountId())) {
-            CommentLike commentLike = new CommentLike(comment, post, currentAccount);
-            commentLikeRepository.save(commentLike);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+        Integer commentLikeSize = comment.getCommentLikes().size();
+
+        Optional<CommentLike> commentLike = commentLikeRepository.findCommentLikeByCommentIdAndAccountId(commentId, currentAccount.getId());
+
+        if (!commentLike.isPresent()) {
+            CommentLike newCommentLike = new CommentLike(comment, comment.getPost(), currentAccount);
+            comment.updateSize(commentLikeSize + 1);
+            commentLikeRepository.save(newCommentLike);
             msg = "댓글 좋아요 완료";
+
         }else {
-            commentLikeRepository.deleteByCommentIdAndAccountId(commentId, postId);
+            commentLikeRepository.deleteByCommentIdAndAccountId(commentId, currentAccount.getId());
             msg = "댓글 좋아요 취소";
+            comment.updateSize(commentLikeSize - 1);
         }
 
-        int countOfLikes = commentLikeRepository.countByCommentIdAndAccountId(commentId, postId);
         return new ResponseEntity(
-                new CommentLikeResponseDto(msg, countOfLikes),
+                new CommentLikeResponseDto(msg, comment.getCommentLikeSize()),
                 HttpStatus.OK
         );
     }
