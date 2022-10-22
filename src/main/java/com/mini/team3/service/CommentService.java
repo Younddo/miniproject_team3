@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class CommentService {
@@ -42,7 +44,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
-        if (comment.getAccount().getAccountId().equals(currentAccount.getAccountId())){
+        if (comment.getAccount().getId().equals(currentAccount.getId())){
             commentRepository.deleteById(commentId);
             return new ResponseEntity(
                     new DataResponseDto("댓글 삭제가 완료되었습니다."),
@@ -60,10 +62,12 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
         Integer commentLikeSize = comment.getCommentLikes().size();
 
-        if (!commentLikeRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getId())) {
-            CommentLike commentLike = new CommentLike(comment, comment.getPost(), currentAccount);
+        Optional<CommentLike> commentLike = commentLikeRepository.findCommentLikeByCommentIdAndAccountId(commentId, currentAccount.getId());
+
+        if (!commentLike.isPresent()) {
+            CommentLike newCommentLike = new CommentLike(comment, comment.getPost(), currentAccount);
             comment.updateSize(commentLikeSize + 1);
-            commentLikeRepository.save(commentLike);
+            commentLikeRepository.save(newCommentLike);
             msg = "댓글 좋아요 완료";
 
         }else {
