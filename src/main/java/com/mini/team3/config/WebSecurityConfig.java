@@ -2,7 +2,6 @@ package com.mini.team3.config;
 
 import com.mini.team3.jwt.filter.JwtAuthFilter;
 import com.mini.team3.jwt.util.JwtUtil;
-import com.mini.team3.jwt.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +42,7 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/api/account/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
 
 

@@ -14,7 +14,7 @@ public class AccountRequestDto {
     @NotBlank(message = "nickname은 공백일 수 없습니다.")
     @Size(min = 4, max = 12, message = "nickname은 4~12 개의 문자만 허용합니다.")
     @Pattern(regexp = "[a-z\\d]*${4,12}", message = "nickname은 소문자와 숫자의 조합만 허용합니다.")
-    private String accountId;
+    private String email;
 
     @NotBlank
     private String accountName;

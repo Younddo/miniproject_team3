@@ -90,7 +90,7 @@ public class JwtUtil {
         if(!tokenValidation(token)) return false;
 
         // DB에 저장한 토큰 비교
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountId(getEmailFromToken(token));
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(getEmailFromToken(token));
 
         return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken());
     }

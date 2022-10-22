@@ -10,11 +10,9 @@ import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-        if (post.getAccount().getAccountId().equals(currentAccount.getAccountId())) {
+        if (post.getAccount().getEmail().equals(currentAccount.getEmail())) {
             post.update(postRequestDto);
             return new PostUpdateDto(post);
 //                    ResponseEntity<>(
@@ -60,7 +58,7 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-        if (post.getAccount().getAccountId().equals(currentAccount.getAccountId())) {
+        if (post.getAccount().getEmail().equals(currentAccount.getEmail())) {
             postRepository.deleteById(postId);
             return new GlobalResponseDto("게시글 삭제가 완료되었습니다!", HttpStatus.OK.value());
         } else {

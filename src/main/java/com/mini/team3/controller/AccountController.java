@@ -36,7 +36,7 @@ public class AccountController {
     //access token 재발급
     @GetMapping("/issue/token") //access token이 만료됐을 경우
     public GlobalResponseDto issuedToken(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response){
-        response.addHeader(JwtUtil.ACCESS_TOKEN, jwtUtil.createToken(userDetails.getAccount().getAccountId(), "Access"));
+        response.addHeader(JwtUtil.ACCESS_TOKEN, jwtUtil.createToken(userDetails.getAccount().getEmail(), "Access"));
 
         return new GlobalResponseDto("Success IssuedToken", HttpStatus.OK.value());
     }

@@ -10,12 +10,13 @@ import javax.validation.constraints.NotBlank;
 public class LoginRequestDto {
 
     @NotBlank
-    private String accountId;
+    private String email;
+
     @NotBlank
     private String accountPw;
 
-    public LoginRequestDto(String accountId, String accountPw) {
-        this.accountId = accountId;
+    public LoginRequestDto(String email, String accountPw) {
+        this.email = email;
         this.accountPw = accountPw;
     }
 

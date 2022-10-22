@@ -18,7 +18,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    private String accountId;
+    private String email;
     @NotBlank
     private String accountName;
     @NotBlank
@@ -50,7 +50,7 @@ public class Account {
     private MyPage myPage;
 
     public Account(AccountRequestDto accountRequestDto) {
-        this.accountId = accountRequestDto.getAccountId();
+        this.email = accountRequestDto.getEmail();
         this.accountName=accountRequestDto.getAccountName();
         this.accountPw = accountRequestDto.getAccountPw();
         this.accountPwConfirm = accountRequestDto.getAccountPwConfirm();

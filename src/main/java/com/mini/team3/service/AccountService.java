@@ -30,8 +30,8 @@ public class AccountService {
 
     @Transactional
     public GlobalResponseDto signup(AccountRequestDto accountRequestDto) {
-        // accountId 중복 검사
-        if(accountRepository.findByAcoountId(accountRequestDto.getAccountId()).isPresent()){
+        // email 중복 검사
+        if(accountRepository.findByEmail(accountRequestDto.getEmail()).isPresent()){
             throw new RuntimeException("Overlap Check");
         }
 
@@ -56,7 +56,7 @@ public class AccountService {
     @Transactional
     public GlobalResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
 
-        Account account = accountRepository.findByAcoountId(loginRequestDto.getAccountId()).orElseThrow(
+        Account account = accountRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(
                 () -> new RuntimeException("Not found Account")
         );
         //비밀번호 맞는지 확인
@@ -64,16 +64,16 @@ public class AccountService {
             throw new RuntimeException("Not matches Password");
         }
         //토큰 발급해주기
-        TokenDto tokenDto = jwtUtil.createAllToken(loginRequestDto.getAccountId());
+        TokenDto tokenDto = jwtUtil.createAllToken(loginRequestDto.getEmail());
 
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountId(loginRequestDto.getAccountId());
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(loginRequestDto.getEmail());
 
         if(refreshToken.isPresent()) {//로그아웃한 후 로그인을 다시하는건가
             RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
             refreshTokenRepository.save(refreshToken1);
 
         }else {
-            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), loginRequestDto.getAccountId());
+            RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), loginRequestDto.getEmail());
             refreshTokenRepository.save(newToken);
         }
         //토큰 header에 넣어줘서 클라이언트에 전달하기
