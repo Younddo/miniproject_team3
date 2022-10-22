@@ -49,12 +49,19 @@ public class PostController {
         return postService.deletePost(postId, userDetails.getAccount());
     }
 
-    @GetMapping("/posts/requestParam")
-    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="createdAt") String sort,
-                                   @RequestParam(value = "accountTeam", required = true, defaultValue = "all") String accountTeam,
-                                   @RequestParam(value = "tag", required = true, defaultValue = "all") String tag)
-            throws IOException {
-        log.classification("sort = {}", "accountTeam = {}", "tag = {}", sort, accountTeam, tag);
-        return postService.findAllPosts(sort, accountTeam, tag);
-    }
+//    // 전체게시글 조회(조건에 맞춰서)
+//    @GetMapping("/posts/requestParam")
+//    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="createdAt") String sort,
+//                                   @RequestParam(value = "accountTeam", required = true, defaultValue = "all") String accountTeam,
+//                                   @RequestParam(value = "tag", required = true, defaultValue = "all") String tag) {
+//        return postService.findAllPosts(sort, accountTeam, tag);
+//    }
+
+    // 우리반 게시글 조회(조건에 맞춰서)
+//    @GetMapping("/posts/requestParam")
+//    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="createdAt") String sort,
+//                                   @RequestParam(value = "accountTeam", required = true, defaultValue = "all") String accountTeam,
+//                                   @RequestParam(value = "tag", required = true, defaultValue = "all") String tag) {
+//        return postService.findTeamPosts(sort, accountTeam, tag);
+//    }
 }

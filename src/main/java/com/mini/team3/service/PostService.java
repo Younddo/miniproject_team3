@@ -63,8 +63,22 @@ public class PostService {
         }
     }
 
+//    // 게시물 전체 조회
+//    public List<Post> findAllPosts(String sort, String accountTeam, String tag) {
+//        if () {
+//            //디폴트일 때
+//            List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
+//        }else {
+//            //
+//            List<Post> postList = postRepository.findPostsByTagAndAccount_AccountTeam(tag, accountTeam);
+//        }
+//
+//
+//
+//        return postList
+//    }
 
-    public List<Post> findAllPosts(String sort, String accountTeam, String tag) {
-
-    }
+    // 우리 조 게시글 조회
+//    public List<Post> findTeamPosts(String sort, String accountTeam, String tag) {
+//    }
 }
