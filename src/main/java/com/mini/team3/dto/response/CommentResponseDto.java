@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 public class CommentResponseDto {
-    Long postId;
-    Long commentId;
-    String comment;
+    private Long postId;
+    private Long commentId;
+    private String comment;
 
     public CommentResponseDto(Long postId, Long commentId, String comment) {
         this.postId = postId;

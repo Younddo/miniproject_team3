@@ -9,6 +9,7 @@ import com.mini.team3.entity.Comment;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 @Getter
@@ -20,19 +21,19 @@ public class PostResponseDto {
     private String title;
     private String contents;
     private String tag;
-    private List<Comment> comments;
-//    private int postLikeNum;
+    private List<TestResponseDto> comments;
+    private int postLike;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostResponseDto(Post post){
+    public PostResponseDto(Post post, List<TestResponseDto> testResponseDtos){
         this.postId = post.getPostId();
         this.accountName = post.getAccount().getAccountName();
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.tag = post.getTag();
-        this.comments = post.getComments();
-//        this.postLikeNum = post.getPostLike.size();
+        this.comments = testResponseDtos;
+        this.postLike = post.getPostLikeCount();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }

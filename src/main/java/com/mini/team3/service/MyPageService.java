@@ -4,7 +4,10 @@ import com.mini.team3.dto.request.MypageRequestDto;
 import com.mini.team3.dto.response.CommentResponseDto;
 import com.mini.team3.dto.response.MyPageResponseDto;
 import com.mini.team3.dto.response.PostResponseDto;
+import com.mini.team3.dto.response.TestResponseDto;
 import com.mini.team3.entity.*;
+import com.mini.team3.exception.CustomException;
+import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,14 +38,15 @@ public class MyPageService {
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
 
 
-        for (Post foundPost : postList) {
 
-            postResponseDtos.add(new PostResponseDto(foundPost));
-        }
 
 //내가 쓴 댓글 조회
 
         List <Comment> commentList = commentRepository.findCommentsByAccount(account);
+        List <TestResponseDto> test1 = new ArrayList<>();
+        for (Comment comment : commentList){
+            test1.add(new TestResponseDto(comment));
+        }
 //        List <Comment> commentList = account.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
@@ -52,7 +56,12 @@ public class MyPageService {
             commentResponseDtos.add(new CommentResponseDto(foundComment));
         }
 
-        Account account1 = accountRepository.findByEmail(account.getEmail()).orElseThrow(() -> new IllegalArgumentException("asd"));
+        for (Post foundPost : postList) {
+
+            postResponseDtos.add(new PostResponseDto(foundPost, test1));
+        }
+
+        Account account1 = accountRepository.findByEmail(account.getEmail()).orElseThrow(() -> new CustomException(ErrorCode.NotFoundCommentUser));
 
         return new ResponseEntity(
                 new MyPageResponseDto(account1, postResponseDtos, commentResponseDtos),
@@ -60,34 +69,34 @@ public class MyPageService {
         );
     }
 
-    @Transactional
-    public ResponseEntity createOneSentence(@RequestBody MypageRequestDto mypageRequestDto, Account account) {
-
-        MyPage myPage = mypageRepository.findById(account.getId()).orElseThrow(() ->
-                new IllegalArgumentException("마이페이지를 찾을 수 없습니다.")
-        );
-        myPage.createOneSentence(mypageRequestDto,account);
-
-        mypageRepository.save(myPage);
-
-        return new ResponseEntity(
-                new MyPageResponseDto(myPage),
-                HttpStatus.OK
-        );
-
-    }
-
-    @Transactional
-    public ResponseEntity updateOneSentence(MypageRequestDto mypageRequestDto, Account account) {
-        MyPage myPage = mypageRepository.findById(account.getId()).orElseThrow(
-                () -> new IllegalArgumentException("마이페이지를 찾을 수 없습니다.")
-        );
-
-        myPage.updateOneSentence(mypageRequestDto, account);
-
-        return new ResponseEntity(
-                new MyPageResponseDto(myPage),
-                HttpStatus.OK
-        );
-    }
+//    @Transactional
+//    public ResponseEntity createOneSentence(@RequestBody MypageRequestDto mypageRequestDto, Account account) {
+//
+//        MyPage myPage = mypageRepository.findById(account.getId()).orElseThrow(() ->
+//                new IllegalArgumentException("마이페이지를 찾을 수 없습니다.")
+//        );
+//        myPage.createOneSentence(mypageRequestDto,account);
+//
+//        mypageRepository.save(myPage);
+//
+//        return new ResponseEntity(
+//                new MyPageResponseDto(myPage),
+//                HttpStatus.OK
+//        );
+//
+//    }
+//
+//    @Transactional
+//    public ResponseEntity updateOneSentence(MypageRequestDto mypageRequestDto, Account account) {
+//        MyPage myPage = mypageRepository.findById(account.getId()).orElseThrow(
+//                () -> new IllegalArgumentException("마이페이지를 찾을 수 없습니다.")
+//        );
+//
+//        myPage.updateOneSentence(mypageRequestDto, account);
+//
+//        return new ResponseEntity(
+//                new MyPageResponseDto(myPage),
+//                HttpStatus.OK
+//        );
+//    }
 }
