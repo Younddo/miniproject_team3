@@ -3,6 +3,7 @@ package com.mini.team3.service;
 import com.mini.team3.dto.request.PostRequestDto;
 import com.mini.team3.dto.response.*;
 import com.mini.team3.entity.Account;
+import com.mini.team3.entity.Comment;
 import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;

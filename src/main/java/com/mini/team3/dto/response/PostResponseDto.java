@@ -9,6 +9,7 @@ import com.mini.team3.entity.Comment;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 @Getter
@@ -25,7 +26,7 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostResponseDto(Post post){
+    public PostResponseDto(Post post, List<TestResponseDto> testResponseDtos){
         this.postId = post.getPostId();
         this.accountName = post.getAccount().getAccountName();
         this.title = post.getTitle();
