@@ -2,7 +2,7 @@ package com.mini.team3.jwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mini.team3.dto.response.GlobalResDto;
-import com.mini.team3.jwt.JwtUtil;
+import com.mini.team3.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

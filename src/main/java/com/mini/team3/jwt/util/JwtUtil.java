@@ -1,4 +1,4 @@
-package com.mini.team3.jwt.Util;
+package com.mini.team3.jwt.util;
 
 import com.mini.team3.config.UserDetailsServiceImpl;
 import com.mini.team3.entity.RefreshToken;
