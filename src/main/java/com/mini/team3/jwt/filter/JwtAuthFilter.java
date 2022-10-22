@@ -1,8 +1,8 @@
 package com.mini.team3.jwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mini.team3.dto.response.GlobalResDto;
-import com.mini.team3.jwt.JwtUtil;
+import com.mini.team3.dto.response.GlobalResponseDto;
+import com.mini.team3.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(status.value());
         response.setContentType("application/json");
         try {
-            String json = new ObjectMapper().writeValueAsString(new GlobalResDto(msg, status.value()));
+            String json = new ObjectMapper().writeValueAsString(new GlobalResponseDto(msg, status.value()));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());
