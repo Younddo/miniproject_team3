@@ -17,8 +17,10 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+###applicatin.properties###
+application.properties
+
 ### IntelliJ IDEA ###
-applicatin.properties
 .idea
 *.iws
 *.iml
