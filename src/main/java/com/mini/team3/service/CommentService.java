@@ -59,10 +59,11 @@ public class CommentService {
     public ResponseEntity likeComment(Long commentId, Account currentAccount) {
 
         String msg;
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
         Integer commentLikeSize = comment.getCommentLikes().size();
 
-        Optional<CommentLike> commentLike = commentLikeRepository.findCommentLikeByCommentIdAndAccountId(commentId, currentAccount.getId());
+        Optional<CommentLike> commentLike = commentLikeRepository.findByCommentAndAccount(comment, currentAccount);
 
         if (!commentLike.isPresent()) {
             CommentLike newCommentLike = new CommentLike(comment, comment.getPost(), currentAccount);
@@ -71,7 +72,7 @@ public class CommentService {
             msg = "댓글 좋아요 완료";
 
         }else {
-            commentLikeRepository.deleteByCommentIdAndAccountId(commentId, currentAccount.getId());
+            commentLikeRepository.deleteByCommentAndAccount(comment, currentAccount);
             msg = "댓글 좋아요 취소";
             comment.updateSize(commentLikeSize - 1);
         }
