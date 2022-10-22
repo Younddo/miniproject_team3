@@ -22,12 +22,15 @@ public class PostLikeService {
     public String createLike(Long postId, Account account) {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost));
+        int size = post.getPostLikes().size();
         PostLike postLike = new PostLike(post, account);
         if(!postLikeRepository.existsByPostAndAccount(post, account)){
+            post.postLikeUpdate(size+1);
             postLikeRepository.save(postLike);
             return post.getPostId() +"번 게시물에 좋아요를 눌렀습니다." + postLike.getAccount().getAccountName() + "님";
         } else {
             postLikeRepository.deleteByPostAndAccount(post, account);
+            post.postLikeUpdate(size-1);
             return post.getPostId() +"번 게시물에 좋아요를 취소했습니다." + postLike.getAccount().getAccountName() + "님";
         }
 

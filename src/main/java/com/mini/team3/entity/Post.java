@@ -56,4 +56,9 @@ public class Post extends TimeStamped {
         this.contents = postRequestDto.getContents();
     }
 
+    public void postLikeUpdate(int size) {
+        this.postLikeCount = size;
+    }
+
+
 }
