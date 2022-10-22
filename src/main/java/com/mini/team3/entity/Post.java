@@ -49,11 +49,13 @@ public class Post extends TimeStamped {
         this.account = account;
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
+        this.tag = postRequestDto.getTag();
     }
 
     public void update (PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
+        this.tag = postRequestDto.getTag();
     }
 
     public void postLikeUpdate(int size) {

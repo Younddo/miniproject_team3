@@ -1,5 +1,6 @@
 package com.mini.team3.dto.request;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +31,6 @@ public class AccountRequestDto {
     @NotBlank
     private String accountTeam;
 
-    @NotBlank
     private Boolean accountLeader;
 
 
@@ -41,3 +41,4 @@ public class AccountRequestDto {
     }
 
 }
+
