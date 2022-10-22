@@ -5,6 +5,7 @@ import com.mini.team3.dto.request.PostRequestDto;
 import com.mini.team3.dto.response.GlobalResDto;
 import com.mini.team3.dto.response.PostResponseDto;
 import com.mini.team3.dto.response.PostUpdateDto;
+import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.service.PostService;
@@ -14,6 +15,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -46,5 +49,14 @@ public class PostController {
     public GlobalResDto deletePost(@PathVariable Long postId,
                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.deletePost(postId, userDetails.getAccount());
+    }
+
+    @GetMapping("/posts/requestParam")
+    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="createdAt") String sort,
+                                   @RequestParam(value = "accountTeam", required = true, defaultValue = "all") String accountTeam,
+                                   @RequestParam(value = "tag", required = true, defaultValue = "all") String tag)
+            throws IOException {
+        log.classification("sort = {}", "accountTeam = {}", "tag = {}", sort, accountTeam, tag);
+        return postService.findAllPosts(sort, accountTeam, tag);
     }
 }

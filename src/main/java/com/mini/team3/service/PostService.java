@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,4 +65,7 @@ public class PostService {
     }
 
 
+    public List<Post> findAllPosts(String sort, String accountTeam, String tag) {
+
+    }
 }
