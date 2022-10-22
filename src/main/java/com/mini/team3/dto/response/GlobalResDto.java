@@ -1,4 +1,4 @@
-package com.mini.team3.global;
+package com.mini.team3.dto.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
