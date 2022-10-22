@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ###applicatin.properties###
-application.properties
+C:\Users\GOOD\Desktop\sparta_java\miniproject_03\team3\src\main\resources\application.properties
 
 ### IntelliJ IDEA ###
 .idea
