@@ -9,6 +9,7 @@ import com.mini.team3.entity.RefreshToken;
 import com.mini.team3.jwt.dto.TokenDto;
 import com.mini.team3.jwt.util.JwtUtil;
 import com.mini.team3.repository.AccountRepository;
+import com.mini.team3.repository.MypageRepository;
 import com.mini.team3.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,8 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    private final MypageRepository myPageRepository;
+
     @Transactional
     public GlobalResponseDto signup(AccountRequestDto accountRequestDto) {
         // email 중복 검사
@@ -45,9 +48,10 @@ public class AccountService {
         accountRequestDto.setEncodePwd(passwordEncoder.encode(accountRequestDto.getAccountPw()));
 
         Account account = new Account(accountRequestDto);
-        MyPage myPage = new MyPage(account);
+        account.setMyPage(new MyPage(account));
 
         accountRepository.save(account);
+//        myPageRepository.save(myPage);
 
 
         return new GlobalResponseDto("Success signup", HttpStatus.OK.value());

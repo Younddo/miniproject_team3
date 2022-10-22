@@ -3,6 +3,7 @@ package com.mini.team3.entity;
 import com.mini.team3.dto.request.AccountRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Account {
@@ -29,7 +31,7 @@ public class Account {
     @NotBlank
     private String accountTeam;
 
-    @NotBlank
+
     private Boolean accountLeader;
 
     @OneToMany(mappedBy = "account")
@@ -45,7 +47,7 @@ public class Account {
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="myPageId")
     private MyPage myPage;
 

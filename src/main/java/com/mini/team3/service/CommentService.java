@@ -32,6 +32,7 @@ public class CommentService {
     public ResponseEntity createComment(Long postId, CommentRequestDto commentRequestDto, Account currentAccount) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 글 없음"));
         Comment comment = new Comment(commentRequestDto, post, currentAccount);
+        commentRepository.save(comment);
 
         return new ResponseEntity(
                 new CommentResponseDto(postId, comment.getCommentId(), commentRequestDto.getComments()),

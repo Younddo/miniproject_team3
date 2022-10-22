@@ -5,10 +5,7 @@ import com.mini.team3.dto.response.CommentResponseDto;
 import com.mini.team3.dto.response.MyPageResponseDto;
 import com.mini.team3.dto.response.PostResponseDto;
 import com.mini.team3.entity.*;
-import com.mini.team3.repository.CommentRepository;
-import com.mini.team3.repository.MypageRepository;
-import com.mini.team3.repository.PostLikeRepository;
-import com.mini.team3.repository.PostRepository;
+import com.mini.team3.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,35 +20,42 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class MyPageService {
+    private  final AccountRepository accountRepository;
 
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final CommentRepository commentRepository;
     private final MypageRepository mypageRepository;
 
-    @Transactional
     public ResponseEntity showMyPage(Account account) {
 
-        //내가 쓴 게시글 조회
+        List <Post> postList = postRepository.findPostsByAccount(account);
+//        List <Post> postList = account.getPosts();
+//내가 쓴 게시글 조회
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
 
 
-        for (Post foundPost : account.getPosts()) {
+        for (Post foundPost : postList) {
 
             postResponseDtos.add(new PostResponseDto(foundPost));
         }
 
-        //내가 쓴 댓글 조회
+//내가 쓴 댓글 조회
+
+        List <Comment> commentList = commentRepository.findCommentsByAccount(account);
+//        List <Comment> commentList = account.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 
 
-        for (Comment foundComment : account.getComments()) {
+        for (Comment foundComment : commentList) {
 
             commentResponseDtos.add(new CommentResponseDto(foundComment));
         }
 
+        Account account1 = accountRepository.findByEmail(account.getEmail()).orElseThrow(() -> new IllegalArgumentException("asd"));
+
         return new ResponseEntity(
-                new MyPageResponseDto(account, postResponseDtos, commentResponseDtos),
+                new MyPageResponseDto(account1, postResponseDtos, commentResponseDtos),
                 HttpStatus.OK
         );
     }

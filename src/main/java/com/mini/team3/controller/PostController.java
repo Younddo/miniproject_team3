@@ -51,16 +51,16 @@ public class PostController {
 
     // 전체게시글 조회(조건에 맞춰서)
     @GetMapping("/posts")
-    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="createdAt") String sort,
-                                   @RequestParam(value = "accountTeam", required = true, defaultValue = "all") String accountTeam,
-                                   @RequestParam(value = "tag", required = true, defaultValue = "all") String tag) {
+    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="최신순") String sort,
+                                   @RequestParam(value = "accountTeam", required = true, defaultValue = "All") String accountTeam,
+                                   @RequestParam(value = "tag", required = true, defaultValue = "All") String tag) {
         return postService.findAllPosts(sort, accountTeam, tag);
     }
 
     //우리반 게시글 조회(조건에 맞춰서)
     @GetMapping("/posts/myteam")
-    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="createdAt") String sort,
-                                   @RequestParam(value = "tag", required = true, defaultValue = "all") String tag,
+    public List<Post> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="최신순") String sort,
+                                   @RequestParam(value = "tag", required = true, defaultValue = "All") String tag,
                                    @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         return postService.findTeamPosts(sort, userDetails.getAccount().getAccountTeam(), tag);

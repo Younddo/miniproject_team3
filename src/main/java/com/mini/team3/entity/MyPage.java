@@ -17,7 +17,7 @@ public class MyPage {
 
     private String oneSentence;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accountId")
     private Account account;
 
