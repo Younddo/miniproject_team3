@@ -40,9 +40,12 @@ public class Post extends TimeStamped {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
-    private List<PostLike> like = new ArrayList<>();
+    private List<PostLike> postLikes = new ArrayList<>();
 
-    public Post (PostRequestDto postRequestDto) {
+    @Column(nullable = false)
+    private int postLikeCount;
+
+    public Post (PostRequestDto postRequestDto, Account account) {
         this.account = account;
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
