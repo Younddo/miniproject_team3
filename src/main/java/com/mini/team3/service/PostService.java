@@ -1,8 +1,7 @@
 package com.mini.team3.service;
 
 import com.mini.team3.dto.request.PostRequestDto;
-import com.mini.team3.dto.response.GlobalResponseDto;
-import com.mini.team3.dto.response.PostUpdateDto;
+import com.mini.team3.dto.response.*;
 import com.mini.team3.entity.Account;
 import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
@@ -70,7 +69,8 @@ public class PostService {
     // 1. 디폴트 -> 시간순, 전체, 전체
     // 2. 시간순 -> 필터
     // 3. 좋아요순 -> 필터
-    public List<Post> findAllPosts(String sort, String accountTeam, String tag) {
+    @Transactional
+    public List<PostResponseDto> findAllPosts(String sort, String accountTeam, String tag) {
         List<Post> postsList = new ArrayList<>();
         //시간순 일 때
         if (sort.equals("최신순")) {
@@ -102,11 +102,20 @@ public class PostService {
                 }
             }
         }
-        return postsList;
+        List<PostResponseDto> postsList1 = new ArrayList<>();
+        List<TestResponseDto> test1 = new ArrayList<>();
+        for (Post post : postsList){
+            for(Comment comment : post.getComments()){
+                test1.add(new TestResponseDto(comment));
+            }
+            postsList1.add(new PostResponseDto(post, test1));
+        }
+        return postsList1;
     }
 
 //     우리 조 게시글 조회
-    public List<Post> findTeamPosts(String sort, String accountTeam, String tag) {
+    @Transactional
+    public List<PostResponseDto> findTeamPosts(String sort, String accountTeam, String tag) {
         List<Post> postList =  new ArrayList<>();
         if (sort.equals("최신순")){
             if (tag.equals("All")) {
@@ -122,6 +131,14 @@ public class PostService {
                 postList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDesc(accountTeam, tag);
             }
         }
-        return postList;
+        List<PostResponseDto> postsList1 = new ArrayList<>();
+        List<TestResponseDto> test1 = new ArrayList<>();
+        for (Post post : postList){
+            for(Comment comment : post.getComments()){
+                test1.add(new TestResponseDto(comment));
+            }
+            postsList1.add(new PostResponseDto(post, test1));
+        }
+        return postsList1;
     }
 }

@@ -20,8 +20,8 @@ public class PostResponseDto {
     private String title;
     private String contents;
     private String tag;
-    private List<Comment> comments;
-//    private int postLikeNum;
+    private List<TestResponseDto> comments;
+    private int postLike;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -31,8 +31,8 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.tag = post.getTag();
-        this.comments = post.getComments();
-//        this.postLikeNum = post.getPostLike.size();
+        this.comments = testResponseDtos;
+        this.postLike = post.getPostLikeCount();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }

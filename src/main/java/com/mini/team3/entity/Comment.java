@@ -1,5 +1,6 @@
 package com.mini.team3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mini.team3.dto.request.CommentRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Comment {
     private String comment;
 
     @JoinColumn(nullable = false)
+    @JsonIgnore
     @ManyToOne
     private Post post;
 

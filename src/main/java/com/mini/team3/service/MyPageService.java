@@ -4,7 +4,10 @@ import com.mini.team3.dto.request.MypageRequestDto;
 import com.mini.team3.dto.response.CommentResponseDto;
 import com.mini.team3.dto.response.MyPageResponseDto;
 import com.mini.team3.dto.response.PostResponseDto;
+import com.mini.team3.dto.response.TestResponseDto;
 import com.mini.team3.entity.*;
+import com.mini.team3.exception.CustomException;
+import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,7 +55,7 @@ public class MyPageService {
             commentResponseDtos.add(new CommentResponseDto(foundComment));
         }
 
-        Account account1 = accountRepository.findByEmail(account.getEmail()).orElseThrow(() -> new IllegalArgumentException("asd"));
+        Account account1 = accountRepository.findByEmail(account.getEmail()).orElseThrow(() -> new CustomException(ErrorCode.NotFoundCommentUser));
 
         return new ResponseEntity(
                 new MyPageResponseDto(account1, postResponseDtos, commentResponseDtos),
