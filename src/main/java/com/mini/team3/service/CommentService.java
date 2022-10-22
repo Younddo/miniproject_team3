@@ -51,7 +51,6 @@ public class CommentService {
         }else {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
         }
-
     }
 
     @Transactional
@@ -61,19 +60,20 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
         Integer commentLikeSize = comment.getCommentLikes().size();
 
-        if (!commentLikeRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getAccountId())) {
+        if (!commentLikeRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getId())) {
             CommentLike commentLike = new CommentLike(comment, comment.getPost(), currentAccount);
+            comment.updateSize(commentLikeSize + 1);
             commentLikeRepository.save(commentLike);
             msg = "댓글 좋아요 완료";
-            commentLikeSize++;
+
         }else {
-            commentLikeRepository.deleteByCommentIdAndAccountId(commentId, currentAccount.getAccountId());
+            commentLikeRepository.deleteByCommentIdAndAccountId(commentId, currentAccount.getId());
             msg = "댓글 좋아요 취소";
-            commentLikeSize--;
+            comment.updateSize(commentLikeSize - 1);
         }
 
         return new ResponseEntity(
-                new CommentLikeResponseDto(msg, commentLikeSize),
+                new CommentLikeResponseDto(msg, comment.getCommentLikeSize()),
                 HttpStatus.OK
         );
     }

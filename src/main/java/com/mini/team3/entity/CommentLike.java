@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class CommentLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long CommentLikeId;
+    private Long commentLikeId;
 
     @JoinColumn(nullable = false)
     @ManyToOne
