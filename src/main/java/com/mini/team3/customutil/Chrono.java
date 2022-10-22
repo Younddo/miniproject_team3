@@ -26,4 +26,8 @@ public class Chrono {
             return dayBefore.format(DateTimeFormatter.ofPattern("MM월 dd일"));
         }
     }
+
+    public static String customForm(LocalDateTime date) {
+        return date.format(DateTimeFormatter.ofPattern("MM월 dd일"));
+    }
 }
