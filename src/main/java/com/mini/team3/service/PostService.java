@@ -23,6 +23,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     // 게시글 작성
+    @Transactional
     public GlobalResponseDto createPost(PostRequestDto postRequestDto, Account account) {
 
         Post post = new Post(postRequestDto, account);
@@ -31,6 +32,7 @@ public class PostService {
     }
 
     // 게시글 수정
+    @Transactional
     public PostUpdateDto updatePost(Long postId, PostRequestDto postRequestDto, Account currentAccount) {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
@@ -51,6 +53,7 @@ public class PostService {
     }
 
     // 게시물 삭제
+    @Transactional
     public GlobalResponseDto deletePost(Long postId, Account currentAccount) {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)

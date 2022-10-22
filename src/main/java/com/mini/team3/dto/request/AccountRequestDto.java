@@ -28,7 +28,7 @@ public class AccountRequestDto {
     private String accountPwConfirm;
 
     @NotBlank
-    private Long accountTeam;
+    private String accountTeam;
 
     @NotBlank
     private Boolean accountLeader;

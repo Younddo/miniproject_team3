@@ -27,7 +27,7 @@ public class Account {
     private String accountPwConfirm;
 
     @NotBlank
-    private Long accountTeam;
+    private String accountTeam;
 
     @NotBlank
     private Boolean accountLeader;
