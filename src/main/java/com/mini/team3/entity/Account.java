@@ -27,7 +27,7 @@ public class Account {
     private String accountPwConfirm;
 
     @NotBlank
-    private Long accountTeam;
+    private String accountTeam;
 
     @NotBlank
     private Boolean accountLeader;
@@ -38,6 +38,10 @@ public class Account {
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CommentLike> commentLikes = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name="myPageId")
+    private MyPage myPage;
 
     public Account(AccountRequestDto accountRequestDto) {
         this.accountId = accountRequestDto.getAccountId();
