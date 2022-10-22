@@ -62,7 +62,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글 없음"));
 
         String msg;
-        if (!commentRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getAccountId())) {
+        if (!commentRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getId())) {
             CommentLike commentLike = new CommentLike(comment, post, currentAccount);
             commentLikeRepository.save(commentLike);
             msg = "댓글 좋아요 완료";

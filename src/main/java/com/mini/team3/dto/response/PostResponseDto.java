@@ -27,7 +27,7 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post){
         this.postId = post.getPostId();
-        this.accountName = post.getAccount().getAccountName;
+        this.accountName = post.getAccount().getAccountName();
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.tag = post.getTag();
