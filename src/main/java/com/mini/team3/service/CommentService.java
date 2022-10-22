@@ -55,25 +55,25 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseEntity likeComment(Long postId, Long commentId, Account currentAccount) {
-
-        //굳이 다 찾아와서 넣어야하나!?
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글 없음"));
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글 없음"));
+    public ResponseEntity likeComment(Long commentId, Account currentAccount) {
 
         String msg;
-        if (!commentRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getAccountId())) {
-            CommentLike commentLike = new CommentLike(comment, post, currentAccount);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+        Integer commentLikeSize = comment.getCommentLikes().size();
+
+        if (!commentLikeRepository.existsByCommentIdAndAccountId(commentId, currentAccount.getAccountId())) {
+            CommentLike commentLike = new CommentLike(comment, comment.getPost(), currentAccount);
             commentLikeRepository.save(commentLike);
             msg = "댓글 좋아요 완료";
+            commentLikeSize++;
         }else {
-            commentLikeRepository.deleteByCommentIdAndAccountId(commentId, postId);
+            commentLikeRepository.deleteByCommentIdAndAccountId(commentId, currentAccount.getAccountId());
             msg = "댓글 좋아요 취소";
+            commentLikeSize--;
         }
 
-        int countOfLikes = commentLikeRepository.countByCommentIdAndAccountId(commentId, postId);
         return new ResponseEntity(
-                new CommentLikeResponseDto(msg, countOfLikes),
+                new CommentLikeResponseDto(msg, commentLikeSize),
                 HttpStatus.OK
         );
     }
