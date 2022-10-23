@@ -60,7 +60,8 @@ public class CommentService {
     public ResponseEntity likeComment(Long commentId, Account currentAccount) {
 
         String msg;
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
         Integer commentLikeSize = comment.getCommentLikes().size();
 
         Optional<CommentLike> commentLike = commentLikeRepository.findByCommentAndAccount(comment, currentAccount);
