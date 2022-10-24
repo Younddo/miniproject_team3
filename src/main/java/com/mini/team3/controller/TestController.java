@@ -2,7 +2,6 @@ package com.mini.team3.controller;
 
 import com.mini.team3.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +20,7 @@ public class TestController {
         } catch (Exception e){
             return "실패";
         }
+        
     }
 
 

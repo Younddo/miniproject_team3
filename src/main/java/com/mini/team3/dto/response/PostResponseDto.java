@@ -26,6 +26,7 @@ public class PostResponseDto {
     private int postLike;
     private String createdAt;
     private String modifiedAt;
+    private String img;
 
     public PostResponseDto(Post post, List<CommentResponseDto> commentResponseDtos){
         this.postId = post.getPostId();
@@ -37,5 +38,6 @@ public class PostResponseDto {
         this.postLike = post.getPostLikeCount();
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
+        this.img=post.getImg();
     }
 }

@@ -37,27 +37,9 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public ResponseEntity showMyPage(Account account) {
 
+        //내가 쓴 게시글 조회
         List<Post> postList = postRepository.findPostsByAccount(account);
-//        List <Post> postList = account.getPosts();
-//내가 쓴 게시글 조회
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
-
-//내가 쓴 댓글 조회
-
-        List<Comment> commentList = commentRepository.findCommentsByAccount(account);
-
-//        List<CommentResponseDto> test1 = new ArrayList<>();
-//        for (Comment comment : commentList){
-//            test1.add(new CommentResponseDto(comment));
-//        }
-//        List <Comment> commentList = account.getComments();
-
-
-        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
-        for (Comment foundComment : commentList) {
-
-            commentResponseDtos.add(new CommentResponseDto(foundComment));
-        }
 
         for (Post foundPost : postList) {
             List<CommentResponseDto> test1 = new ArrayList<>();
@@ -65,6 +47,15 @@ public class MyPageService {
                 test1.add(new CommentResponseDto(comment));
             }
             postResponseDtos.add(new PostResponseDto(foundPost, test1));
+        }
+
+        //내가 쓴 댓글 조회
+        List<Comment> commentList = commentRepository.findCommentsByAccount(account);
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+
+        for (Comment foundComment : commentList) {
+
+            commentResponseDtos.add(new CommentResponseDto(foundComment));
         }
 
         Account account1 = accountRepository.findByEmail(account.getEmail()).orElseThrow(() -> new CustomException(ErrorCode.NotFoundCommentUser));
