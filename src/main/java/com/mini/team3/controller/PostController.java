@@ -8,7 +8,6 @@ import com.mini.team3.dto.response.PostUpdateDto;
 import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
-import com.mini.team3.s3.S3Uploader;
 import com.mini.team3.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

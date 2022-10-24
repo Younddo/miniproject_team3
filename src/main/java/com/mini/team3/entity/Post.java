@@ -8,6 +8,7 @@ import com.mini.team3.entity.TimeStamped;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -48,19 +49,14 @@ public class Post extends TimeStamped {
 
     private String img;
 
+
+
     public Post (PostRequestDto postRequestDto, Account account, String img) {
         this.account = account;
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
         this.tag = postRequestDto.getTag();
-        this.img=img;
-    }
-
-    public Post (PostRequestDto postRequestDto, Account account) {
-        this.account = account;
-        this.title = postRequestDto.getTitle();
-        this.contents = postRequestDto.getContents();
-        this.tag = postRequestDto.getTag();
+        this.img = img;
     }
 
     public void update (PostRequestDto postRequestDto, String img) {
