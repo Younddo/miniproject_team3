@@ -1,6 +1,5 @@
 package com.mini.team3.service;
 
-
 import com.mini.team3.dto.request.MypageRequestDto;
 import com.mini.team3.dto.response.CommentResponseDto;
 import com.mini.team3.dto.response.MyPageResponseDto;
@@ -29,7 +28,6 @@ import java.util.List;
 @Service
 public class MyPageService {
     private final AccountRepository accountRepository;
-
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final MypageRepository mypageRepository;
@@ -37,7 +35,7 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public ResponseEntity showMyPage(Account account) {
 
-        //내가 쓴 게시글 조회
+        // 내가 쓴 게시글 조회
         List<Post> postList = postRepository.findPostsByAccount(account);
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
 
@@ -49,7 +47,7 @@ public class MyPageService {
             postResponseDtos.add(new PostResponseDto(foundPost, test1));
         }
 
-        //내가 쓴 댓글 조회
+        // 내가 쓴 댓글 조회
         List<Comment> commentList = commentRepository.findCommentsByAccount(account);
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
 

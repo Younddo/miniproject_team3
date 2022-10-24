@@ -2,7 +2,6 @@ package com.mini.team3.controller;
 
 import com.mini.team3.config.UserDetailsImpl;
 import com.mini.team3.dto.request.CommentRequestDto;
-import com.mini.team3.entity.CommentLike;
 import com.mini.team3.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +34,4 @@ public class CommentController {
                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.likeComment(commentId, userDetails.getAccount());
     }
-
 }

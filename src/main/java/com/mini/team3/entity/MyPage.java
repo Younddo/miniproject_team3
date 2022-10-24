@@ -34,5 +34,4 @@ public class MyPage {
         this.oneSentence= mypageRequestDto.getOneSentence();
         this.account=account;
     }
-
 }

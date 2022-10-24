@@ -17,15 +17,14 @@ public class Comment extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
-
     @Column(nullable = false)
     private String comment;
+
 
     @JoinColumn(nullable = false)
     @JsonIgnore
     @ManyToOne
     private Post post;
-
     @JoinColumn(nullable = false)
     @ManyToOne
     private Account account;

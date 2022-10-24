@@ -1,7 +1,6 @@
 package com.mini.team3.service;
 
 import com.mini.team3.dto.response.CommentLikeResponseDto;
-import com.mini.team3.dto.response.CommentResponseDto;
 import com.mini.team3.entity.Account;
 import com.mini.team3.entity.Post;
 import com.mini.team3.entity.PostLike;
@@ -41,6 +40,5 @@ public class PostLikeService {
                     new CommentLikeResponseDto(post.getPostId() +"번 게시물에 좋아요를 취소했습니다." + postLike.getAccount().getAccountName() + "님", post.getPostLikeCount()), HttpStatus.OK
             );
         }
-
     }
 }

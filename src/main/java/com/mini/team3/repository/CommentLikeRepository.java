@@ -12,6 +12,4 @@ public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> 
     void deleteByCommentAndAccount(Comment comment, Account account);
 
     Optional<CommentLike> findByCommentAndAccount(Comment comment, Account account);
-
-
 }

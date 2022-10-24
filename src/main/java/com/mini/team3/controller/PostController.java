@@ -5,7 +5,6 @@ import com.mini.team3.dto.request.PostRequestDto;
 import com.mini.team3.dto.response.GlobalResponseDto;
 import com.mini.team3.dto.response.PostResponseDto;
 import com.mini.team3.dto.response.PostUpdateDto;
-import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.service.PostService;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -61,7 +59,7 @@ public class PostController {
         return postService.findAllPosts(sort, accountTeam, tag);
     }
 
-    //우리반 게시글 조회(조건에 맞춰서)
+    // 우리조 게시글 조회(조건에 맞춰서)
     @GetMapping("/posts/myteam")
     public List<PostResponseDto> requestParam(@RequestParam(value = "sort", required = true, defaultValue ="최신순") String sort,
                                               @RequestParam(value = "tag", required = true, defaultValue = "All") String tag,
@@ -73,6 +71,7 @@ public class PostController {
     // 게시글 상세조회
     @GetMapping("/posts/{postId}")
     public PostResponseDto getOnePost(@PathVariable Long postId) {
+
         return postService.getOnePost(postId);
     }
 }

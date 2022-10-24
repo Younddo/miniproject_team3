@@ -23,23 +23,23 @@ public class AccountController {
     private final JwtUtil jwtUtil;
     private final AccountService accountService;
 
-    //회원가입
+    // 회원가입
     @PostMapping("/signup")
     public GlobalResponseDto signup(@RequestBody @Valid AccountRequestDto accountRequestDto) {
         return accountService.signup(accountRequestDto);
     }
-    //로그인
+
+    // 로그인
     @PostMapping("/login")
     public GlobalResponseDto login(@RequestBody @Valid LoginRequestDto loginRequestDto, HttpServletResponse response) {
         return accountService.login(loginRequestDto, response);
     }
 
-    //access token 재발급
-    @GetMapping("/issue/token") //access token이 만료됐을 경우
+    // access token 재발급
+    @GetMapping("/issue/token") // access token이 만료됐을 경우
     public GlobalResponseDto issuedToken(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response){
         response.addHeader(JwtUtil.ACCESS_TOKEN, jwtUtil.createToken(userDetails.getAccount().getEmail(), "Access"));
 
         return new GlobalResponseDto("Success IssuedToken", HttpStatus.OK.value());
     }
-
 }

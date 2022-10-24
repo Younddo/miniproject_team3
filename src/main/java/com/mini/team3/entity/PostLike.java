@@ -30,5 +30,4 @@ public class PostLike {
         this.post = post;
         this.account = account;
     }
-
 }

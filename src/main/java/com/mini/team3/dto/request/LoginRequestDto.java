@@ -15,10 +15,10 @@ public class LoginRequestDto {
     @NotBlank
     private String accountPw;
 
+
     public LoginRequestDto(String email, String accountPw) {
         this.email = email;
         this.accountPw = accountPw;
     }
-
 }
 
