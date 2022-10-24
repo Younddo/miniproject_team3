@@ -15,16 +15,20 @@ public class Chrono {
     }
 
     public static String timesAgo(LocalDateTime dayBefore) {
-        long gap = ChronoUnit.HOURS.between(dayBefore, LocalDateTime.now());
+        long gap = ChronoUnit.MINUTES.between(dayBefore, LocalDateTime.now());
+        String word;
         if (gap == 0){
-            return "방금 전";
-        }else if (gap < 24){
-            return gap + "시간 전";
-        }else if (gap < 24 * 10) {
-            return gap / 24 + "일 전";
+            word = "방금 전";
+        }else if (gap < 60) {
+            word = gap + "분 전";
+        }else if (gap < 60 * 24){
+            word = gap + "시간 전";
+        }else if (gap < 60 * 24 * 10) {
+            word = gap / 24 + "일 전";
         } else {
-            return dayBefore.format(DateTimeFormatter.ofPattern("MM월 dd일"));
+            word = dayBefore.format(DateTimeFormatter.ofPattern("MM월 dd일"));
         }
+        return word;
     }
 
     public static String customForm(LocalDateTime date) {

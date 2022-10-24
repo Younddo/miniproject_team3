@@ -1,5 +1,6 @@
 package com.mini.team3.dto.response;
 
+import com.mini.team3.customutil.Chrono;
 import com.mini.team3.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,8 +24,8 @@ public class PostResponseDto {
     private String tag;
     private List<CommentResponseDto> comments;
     private int postLike;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private String createdAt;
+    private String modifiedAt;
 
     public PostResponseDto(Post post, List<CommentResponseDto> commentResponseDtos){
         this.postId = post.getPostId();
@@ -34,7 +35,7 @@ public class PostResponseDto {
         this.tag = post.getTag();
         this.comments = commentResponseDtos;
         this.postLike = post.getPostLikeCount();
-        this.createdAt = post.getCreatedAt();
-        this.modifiedAt = post.getModifiedAt();
+        this.createdAt = Chrono.timesAgo(post.getCreatedAt());
+        this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
     }
 }
