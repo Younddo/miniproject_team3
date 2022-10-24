@@ -49,8 +49,8 @@ public class PostService {
 
         if (post.getAccount().getEmail().equals(currentAccount.getEmail())) {
             post.update(postRequestDto, img);
-            return new PostUpdateDto(post);
 
+            return new PostUpdateDto(post);
         } else {
             throw new CustomException(ErrorCode.NotMatchUser);
         }
