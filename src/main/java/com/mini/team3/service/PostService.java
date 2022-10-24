@@ -104,10 +104,10 @@ public class PostService {
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        List<TestResponseDto> test1 = new ArrayList<>();
+        List<CommentResponseDto> test1 = new ArrayList<>();
         for (Post post : postsList){
             for(Comment comment : post.getComments()){
-                test1.add(new TestResponseDto(comment));
+                test1.add(new CommentResponseDto(comment));
             }
             postsList1.add(new PostResponseDto(post, test1));
         }
@@ -133,10 +133,10 @@ public class PostService {
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        List<TestResponseDto> test1 = new ArrayList<>();
+        List<CommentResponseDto> test1 = new ArrayList<>();
         for (Post post : postList){
             for(Comment comment : post.getComments()){
-                test1.add(new TestResponseDto(comment));
+                test1.add(new CommentResponseDto(comment));
             }
             postsList1.add(new PostResponseDto(post, test1));
         }
