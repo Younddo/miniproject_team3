@@ -51,9 +51,9 @@ public class MyPageService {
 //            test1.add(new CommentResponseDto(comment));
 //        }
 //        List <Comment> commentList = account.getComments();
+
+
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
-
-
         for (Comment foundComment : commentList) {
 
             commentResponseDtos.add(new CommentResponseDto(foundComment));
