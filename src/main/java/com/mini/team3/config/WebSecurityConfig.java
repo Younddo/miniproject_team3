@@ -43,6 +43,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/test").permitAll()
                 .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
 
 
