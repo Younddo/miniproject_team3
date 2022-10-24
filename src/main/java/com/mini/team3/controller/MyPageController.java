@@ -25,17 +25,17 @@ public class MyPageController {
         return myPageService.showMyPage(account);
     }
 
-//    @PostMapping("")
-//    public ResponseEntity createOneSentence( @RequestBody MypageRequestDto mypageRequestDto,
-//                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        Account account = userDetails.getAccount();
-//        return myPageService.createOneSentence(mypageRequestDto, account);
-//    }
-//
-//    @PutMapping("")
-//    public ResponseEntity updateOneSentence( @RequestBody MypageRequestDto mypageRequestDto,
-//                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        Account account = userDetails.getAccount();
-//        return myPageService.updateOneSentence(mypageRequestDto, account);
-//    }
+    @PostMapping("")
+    public ResponseEntity createOneSentence( @RequestBody MypageRequestDto mypageRequestDto,
+                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        Account account = userDetails.getAccount();
+        return myPageService.createOneSentence(mypageRequestDto, account);
+    }
+
+    @PutMapping("")
+    public ResponseEntity updateOneSentence( @RequestBody MypageRequestDto mypageRequestDto,
+                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        Account account = userDetails.getAccount();
+        return myPageService.updateOneSentence(mypageRequestDto, account);
+    }
 }

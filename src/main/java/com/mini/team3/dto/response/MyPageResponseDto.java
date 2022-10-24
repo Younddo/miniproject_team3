@@ -42,6 +42,7 @@ public class MyPageResponseDto {
     }
 
     public MyPageResponseDto(MyPage myPage){
+
         this.oneSentence=myPage.getOneSentence();
     }
 }

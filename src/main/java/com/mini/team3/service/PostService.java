@@ -104,8 +104,8 @@ public class PostService {
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        List<CommentResponseDto> comment1 = new ArrayList<>();
         for (Post post : postsList){
+            List<CommentResponseDto> comment1 = new ArrayList<>();
             for(Comment comment : post.getComments()){
                 comment1.add(new CommentResponseDto(comment));
             }
@@ -133,8 +133,8 @@ public class PostService {
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
         for (Post post : postList){
+            List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
             for(Comment comment : post.getComments()){
                 commentResponseDtos.add(new CommentResponseDto(comment));
             }
@@ -149,11 +149,11 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-        List<CommentResponseDto> onePostComment = new ArrayList<>();
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
         for(Comment comment : post.getComments()){
-            onePostComment.add(new CommentResponseDto(comment));
+            commentResponseDtos.add(new CommentResponseDto(comment));
         }
-        PostResponseDto postResponseDto = new PostResponseDto(post, onePostComment);
+        PostResponseDto postResponseDto = new PostResponseDto(post, commentResponseDtos);
         return postResponseDto;
     }
 }
