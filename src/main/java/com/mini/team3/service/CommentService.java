@@ -35,7 +35,7 @@ public class CommentService {
         commentRepository.save(comment);
 
         return new ResponseEntity(
-                new CommentResponseDto(postId, comment.getCommentId(), commentRequestDto.getComments()),
+                new CommentResponseDto(comment),
                 HttpStatus.OK
         );
     }

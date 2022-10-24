@@ -10,14 +10,12 @@ public class CommentResponseDto {
     private String accountName;
     private String comment;
 
-    public CommentResponseDto(Long postId, Long commentId, String comment) {
-        this.postId = postId;
-        this.commentId = commentId;
-        this.comment = comment;
-    }
 
     public CommentResponseDto(Comment comment){
-        this.comment=comment.getComment();
+        this.postId = comment.getPost().getPostId();
+        this.comment = comment.getComment();
+        this.accountName = comment.getAccount().getAccountName();
+        this.commentId = comment.getCommentId();
 
     }
 }
