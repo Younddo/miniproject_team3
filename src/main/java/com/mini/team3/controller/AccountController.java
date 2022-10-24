@@ -1,6 +1,7 @@
 package com.mini.team3.controller;
 
 import com.mini.team3.config.UserDetailsImpl;
+import com.mini.team3.customutil.RandomSentence;
 import com.mini.team3.dto.request.AccountRequestDto;
 import com.mini.team3.dto.request.LoginRequestDto;
 import com.mini.team3.dto.response.GlobalResponseDto;
