@@ -15,10 +15,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostsByAccount_AccountTeamAndTagOrderByCreatedAtDesc(String accountTeam, String tag);
 
     //좋아요 정렬
-    List<Post> findAllByOrderByPostLikeCountDesc();
-    List<Post> findPostsByTagOrderByPostLikeCountDesc(String tag);
-    List<Post> findPostsByAccount_AccountTeamOrderByPostLikeCountDesc(String accountTeam);
-    List<Post> findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDesc(String accountTeam, String tag);
+    List<Post> findAllByOrderByPostLikeCountDescCreatedAtDesc();
+    List<Post> findPostsByTagOrderByPostLikeCountDescCreatedAtDesc(String tag);
+    List<Post> findPostsByAccount_AccountTeamOrderByPostLikeCountDescCreatedAtDesc(String accountTeam);
+    List<Post> findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDescCreatedAtDesc(String accountTeam, String tag);
 
 
     List<Post> findPostsByAccount(Account account);

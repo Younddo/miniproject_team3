@@ -9,10 +9,12 @@ import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class PostService {
     // 1. 디폴트 -> 시간순, 전체, 전체
     // 2. 시간순 -> 필터
     // 3. 좋아요순 -> 필터
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostResponseDto> findAllPosts(String sort, String accountTeam, String tag) {
         List<Post> postsList = new ArrayList<>();
         //시간순 일 때
@@ -91,15 +93,15 @@ public class PostService {
         }else if (sort.equals("좋아요순")){
             if(accountTeam.equals("All")) {
                 if (tag.equals("All")) {
-                    postsList = postRepository.findAllByOrderByPostLikeCountDesc();
+                    postsList = postRepository.findAllByOrderByPostLikeCountDescCreatedAtDesc();
                 } else {
-                    postsList = postRepository.findPostsByTagOrderByPostLikeCountDesc(tag);
+                    postsList = postRepository.findPostsByTagOrderByPostLikeCountDescCreatedAtDesc(tag);
                 }
             } else {
                 if (tag.equals("All")) {
-                    postsList = postRepository.findPostsByAccount_AccountTeamOrderByPostLikeCountDesc(accountTeam);
+                    postsList = postRepository.findPostsByAccount_AccountTeamOrderByPostLikeCountDescCreatedAtDesc(accountTeam);
                 } else {
-                    postsList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDesc(accountTeam, tag);
+                    postsList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDescCreatedAtDesc(accountTeam, tag);
                 }
             }
         }
@@ -115,7 +117,7 @@ public class PostService {
     }
 
 //     우리 조 게시글 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostResponseDto> findTeamPosts(String sort, String accountTeam, String tag) {
         List<Post> postList =  new ArrayList<>();
         if (sort.equals("최신순")){
@@ -127,9 +129,9 @@ public class PostService {
 
         } else if (sort.equals("좋아요순")){
             if (tag.equals("All")){
-                postList = postRepository.findPostsByAccount_AccountTeamOrderByPostLikeCountDesc(accountTeam);
+                postList = postRepository.findPostsByAccount_AccountTeamOrderByPostLikeCountDescCreatedAtDesc(accountTeam);
             }else{
-                postList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDesc(accountTeam, tag);
+                postList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDescCreatedAtDesc(accountTeam, tag);
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
@@ -144,7 +146,7 @@ public class PostService {
     }
 
     // 게시글 상세조회
-    @Transactional
+    @Transactional(readOnly = true)
     public PostResponseDto getOnePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)

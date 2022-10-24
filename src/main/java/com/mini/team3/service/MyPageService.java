@@ -1,19 +1,5 @@
 package com.mini.team3.service;
 
-import com.mini.team3.dto.request.MypageRequestDto;
-import com.mini.team3.dto.response.CommentResponseDto;
-import com.mini.team3.dto.response.MyPageResponseDto;
-import com.mini.team3.dto.response.PostResponseDto;
-import com.mini.team3.dto.response.TestResponseDto;
-import com.mini.team3.entity.*;
-import com.mini.team3.exception.CustomException;
-import com.mini.team3.exception.ErrorCode;
-import com.mini.team3.repository.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.mini.team3.dto.request.MypageRequestDto;
 import com.mini.team3.dto.response.CommentResponseDto;
@@ -48,15 +34,13 @@ public class MyPageService {
     private final CommentRepository commentRepository;
     private final MypageRepository mypageRepository;
 
+    @Transactional(readOnly = true)
     public ResponseEntity showMyPage(Account account) {
 
         List<Post> postList = postRepository.findPostsByAccount(account);
 //        List <Post> postList = account.getPosts();
 //내가 쓴 게시글 조회
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
-
-
-
 
 //내가 쓴 댓글 조회
 
