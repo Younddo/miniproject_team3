@@ -8,10 +8,12 @@ import com.mini.team3.dto.response.PostUpdateDto;
 import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
+import com.mini.team3.s3.S3Uploader;
 import com.mini.team3.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -27,20 +29,22 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping("/posts")
-    public GlobalResponseDto createPost(@RequestBody @Valid PostRequestDto postRequestDto,
-                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public GlobalResponseDto createPost(@RequestPart(value = "img", required = false) MultipartFile multipartFile,
+                                        @RequestPart(value = "post") @Valid PostRequestDto postRequestDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         if (userDetails==null){
             throw new CustomException(ErrorCode.NotFoundToken);
         }
-        return postService.createPost(postRequestDto, userDetails.getAccount());
+        return postService.createPost(multipartFile, postRequestDto, userDetails.getAccount());
     }
 
     // 게시글 수정
     @PutMapping("/posts/{postId}")
     public PostUpdateDto updatePost(@PathVariable Long postId,
-                                    @RequestBody @Valid PostRequestDto postRequestDto,
-                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.updatePost(postId, postRequestDto, userDetails.getAccount());
+                                    @RequestPart(value = "img", required = false) MultipartFile multipartFile,
+                                    @RequestPart(value = "post") @Valid PostRequestDto postRequestDto,
+                                    @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        return postService.updatePost(postId, multipartFile, postRequestDto, userDetails.getAccount());
     }
 
     // 게시글 삭제

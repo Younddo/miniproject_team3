@@ -16,12 +16,11 @@ public class TestController {
     @PostMapping("/test")
     public String test (@RequestPart(value = "img") MultipartFile multipartFile) {
         try {
-            s3Uploader.uploadFiles(multipartFile, "testdir1");
+            return s3Uploader.uploadFiles(multipartFile, "testdir1");
         } catch (Exception e){
             return "실패";
         }
-
-        return "성공";
+        
     }
 
 

@@ -8,13 +8,16 @@ import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.PostRepository;
+import com.mini.team3.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,31 +27,33 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    private final S3Uploader s3Uploader;
+
     // 게시글 작성
     @Transactional
-    public GlobalResponseDto createPost(PostRequestDto postRequestDto, Account account) {
+    public GlobalResponseDto createPost(MultipartFile multipartFile, PostRequestDto postRequestDto, Account account) throws IOException {
 
-        Post post = new Post(postRequestDto, account);
+        String img = s3Uploader.uploadFiles(multipartFile, "testdir1");
+
+        Post post = new Post(postRequestDto, account, img);
         postRepository.save(post);
+
         return new GlobalResponseDto("Success Post", HttpStatus.OK.value());
     }
 
     // 게시글 수정
     @Transactional
-    public PostUpdateDto updatePost(Long postId, PostRequestDto postRequestDto, Account currentAccount) {
+    public PostUpdateDto updatePost(Long postId, MultipartFile multipartFile, PostRequestDto postRequestDto, Account currentAccount) throws IOException {
         Post post = postRepository.findById(postId).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundPost)
+                () -> new CustomException(ErrorCode.NotFoundPost)
         );
+
+        String img = s3Uploader.uploadFiles(multipartFile, "testdir1");
+
         if (post.getAccount().getEmail().equals(currentAccount.getEmail())) {
-            post.update(postRequestDto);
+            post.update(postRequestDto, img);
             return new PostUpdateDto(post);
-//                    ResponseEntity<>(
-//                    PostResponseDto.builder()
-//                            .modifiedAt(post.getModifiedAt())
-//                            .build(),
-//                    HttpStatus.OK
-//                    post.getModifiedAt(), HttpStatus.OK
-//            );
+
         } else {
             throw new CustomException(ErrorCode.NotMatchUser);
         }
@@ -58,7 +63,7 @@ public class PostService {
     @Transactional
     public GlobalResponseDto deletePost(Long postId, Account currentAccount) {
         Post post = postRepository.findById(postId).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundPost)
+                () -> new CustomException(ErrorCode.NotFoundPost)
         );
         if (post.getAccount().getEmail().equals(currentAccount.getEmail())) {
             postRepository.deleteById(postId);
@@ -78,20 +83,20 @@ public class PostService {
         //시간순 일 때
         if (sort.equals("최신순")) {
             if (accountTeam.equals("All")) {
-                if (tag.equals("All")){
+                if (tag.equals("All")) {
                     postsList = postRepository.findAllByOrderByCreatedAtDesc();
-                }else {
+                } else {
                     postsList = postRepository.findPostsByTagOrderByCreatedAtDesc(tag);
                 }
-            }else {
+            } else {
                 if (tag.equals("All")) {
                     postsList = postRepository.findPostsByAccount_AccountTeamOrderByCreatedAtDesc(accountTeam);
-                }else {
+                } else {
                     postsList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByCreatedAtDesc(accountTeam, tag);
                 }
             }
-        }else if (sort.equals("좋아요순")){
-            if(accountTeam.equals("All")) {
+        } else if (sort.equals("좋아요순")) {
+            if (accountTeam.equals("All")) {
                 if (tag.equals("All")) {
                     postsList = postRepository.findAllByOrderByPostLikeCountDescCreatedAtDesc();
                 } else {
@@ -106,9 +111,9 @@ public class PostService {
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        for (Post post : postsList){
+        for (Post post : postsList) {
             List<CommentResponseDto> comment1 = new ArrayList<>();
-            for(Comment comment : post.getComments()){
+            for (Comment comment : post.getComments()) {
                 comment1.add(new CommentResponseDto(comment));
             }
             postsList1.add(new PostResponseDto(post, comment1));
@@ -116,28 +121,28 @@ public class PostService {
         return postsList1;
     }
 
-//     우리 조 게시글 조회
+    //     우리 조 게시글 조회
     @Transactional(readOnly = true)
     public List<PostResponseDto> findTeamPosts(String sort, String accountTeam, String tag) {
-        List<Post> postList =  new ArrayList<>();
-        if (sort.equals("최신순")){
+        List<Post> postList = new ArrayList<>();
+        if (sort.equals("최신순")) {
             if (tag.equals("All")) {
                 postList = postRepository.findPostsByAccount_AccountTeamOrderByCreatedAtDesc(accountTeam);
             } else {
                 postList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByCreatedAtDesc(accountTeam, tag);
             }
 
-        } else if (sort.equals("좋아요순")){
-            if (tag.equals("All")){
+        } else if (sort.equals("좋아요순")) {
+            if (tag.equals("All")) {
                 postList = postRepository.findPostsByAccount_AccountTeamOrderByPostLikeCountDescCreatedAtDesc(accountTeam);
-            }else{
+            } else {
                 postList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByPostLikeCountDescCreatedAtDesc(accountTeam, tag);
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        for (Post post : postList){
+        for (Post post : postList) {
             List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
-            for(Comment comment : post.getComments()){
+            for (Comment comment : post.getComments()) {
                 commentResponseDtos.add(new CommentResponseDto(comment));
             }
             postsList1.add(new PostResponseDto(post, commentResponseDtos));
@@ -149,10 +154,10 @@ public class PostService {
     @Transactional(readOnly = true)
     public PostResponseDto getOnePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundPost)
+                () -> new CustomException(ErrorCode.NotFoundPost)
         );
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
-        for(Comment comment : post.getComments()){
+        for (Comment comment : post.getComments()) {
             commentResponseDtos.add(new CommentResponseDto(comment));
         }
         PostResponseDto postResponseDto = new PostResponseDto(post, commentResponseDtos);
