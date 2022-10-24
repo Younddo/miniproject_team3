@@ -27,19 +27,16 @@ public class Account {
     private String accountPw;
     @NotBlank
     private String accountPwConfirm;
-
     @NotBlank
     private String accountTeam;
-
-
     private Boolean accountLeader;
+
 
     @OneToMany(mappedBy = "account")
     private List<Post> posts;
 
     @OneToMany(mappedBy = "account")
     private List<Comment> comments;
-
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PostLike> postLikes = new ArrayList<>();
@@ -59,6 +56,5 @@ public class Account {
         this.accountTeam=accountRequestDto.getAccountTeam();
         this.accountLeader=accountRequestDto.getAccountLeader();
     }
-
 }
 

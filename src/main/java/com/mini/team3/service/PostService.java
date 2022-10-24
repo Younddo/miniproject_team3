@@ -10,12 +10,10 @@ import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.PostRepository;
 import com.mini.team3.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +24,6 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
-
     private final S3Uploader s3Uploader;
 
     // 게시글 작성
@@ -80,7 +77,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostResponseDto> findAllPosts(String sort, String accountTeam, String tag) {
         List<Post> postsList = new ArrayList<>();
-        //시간순 일 때
+        // 시간순 일 때
         if (sort.equals("최신순")) {
             if (accountTeam.equals("All")) {
                 if (tag.equals("All")) {
@@ -121,7 +118,7 @@ public class PostService {
         return postsList1;
     }
 
-    //     우리 조 게시글 조회
+    // 우리 조 게시글 조회
     @Transactional(readOnly = true)
     public List<PostResponseDto> findTeamPosts(String sort, String accountTeam, String tag) {
         List<Post> postList = new ArrayList<>();

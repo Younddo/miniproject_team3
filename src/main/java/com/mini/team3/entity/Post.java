@@ -36,6 +36,7 @@ public class Post extends TimeStamped {
     @Column(nullable = false)
     private String tag;
 
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
@@ -73,6 +74,4 @@ public class Post extends TimeStamped {
     public void postLikeUpdate(int size) {
         this.postLikeCount = size;
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.mini.team3.dto.request;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,20 +24,20 @@ public class AccountRequestDto {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$"
             , message = "password는 무조건 영문, 숫자, 특수문자를 각각 1글자 이상 포함해야 합니다.")
     private String accountPw;
+
     @NotBlank
     private String accountPwConfirm;
 
     @NotBlank
     private String accountTeam;
 
-    private Boolean accountLeader;
 
+    private Boolean accountLeader;
 
 
     public void setEncodePwd(String encodePwd) {
 
         this.accountPw = encodePwd;
     }
-
 }
 

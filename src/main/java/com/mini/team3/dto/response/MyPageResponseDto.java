@@ -1,9 +1,7 @@
 package com.mini.team3.dto.response;
 
-import com.mini.team3.dto.request.MypageRequestDto;
 import com.mini.team3.entity.Account;
 import com.mini.team3.entity.MyPage;
-import com.mini.team3.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +33,6 @@ public class MyPageResponseDto {
         this.accountName=account.getAccountName();
         this.accountTeam=account.getAccountTeam();
         this.oneSentence=account.getMyPage().getOneSentence();
-
 
         this.myPost=postResponseDtos;
         this.myComment=commentResponseDtos;

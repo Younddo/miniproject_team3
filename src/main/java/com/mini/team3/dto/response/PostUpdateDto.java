@@ -9,8 +9,12 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class PostUpdateDto {
+
     private LocalDateTime modifiedAt;
+
+
     public PostUpdateDto(Post post) {
+
         this.modifiedAt = post.getModifiedAt();
     }
 }

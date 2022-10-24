@@ -4,8 +4,6 @@ import com.mini.team3.customutil.Chrono;
 import com.mini.team3.entity.Comment;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 public class CommentResponseDto {
     private Long postId;

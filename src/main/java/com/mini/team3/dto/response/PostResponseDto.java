@@ -6,11 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.mini.team3.entity.Comment;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Builder
 @Getter
@@ -28,7 +25,8 @@ public class PostResponseDto {
     private String modifiedAt;
     private String img;
 
-    public PostResponseDto(Post post, List<CommentResponseDto> commentResponseDtos){
+
+    public PostResponseDto(Post post, List<CommentResponseDto> commentResponseDtos) {
         this.postId = post.getPostId();
         this.accountName = post.getAccount().getAccountName();
         this.title = post.getTitle();
@@ -38,6 +36,6 @@ public class PostResponseDto {
         this.postLike = post.getPostLikeCount();
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
-        this.img=post.getImg();
+        this.img = post.getImg();
     }
 }

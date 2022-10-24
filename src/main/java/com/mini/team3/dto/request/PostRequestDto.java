@@ -1,11 +1,9 @@
 package com.mini.team3.dto.request;
 
-import com.mini.team3.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor

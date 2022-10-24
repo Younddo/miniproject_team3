@@ -29,8 +29,6 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private final MypageRepository myPageRepository;
-
     @Transactional
     public GlobalResponseDto signup(AccountRequestDto accountRequestDto) {
         // email 중복 검사
@@ -51,8 +49,6 @@ public class AccountService {
         account.setMyPage(new MyPage(account));
 
         accountRepository.save(account);
-//        myPageRepository.save(myPage);
-
 
         return new GlobalResponseDto("Success signup", HttpStatus.OK.value());
     }
@@ -63,16 +59,18 @@ public class AccountService {
         Account account = accountRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(
                 () -> new RuntimeException("Not found Account")
         );
-        //비밀번호 맞는지 확인
+
+        // 비밀번호 맞는지 확인
         if(!passwordEncoder.matches(loginRequestDto.getAccountPw(), account.getAccountPw())) {
             throw new RuntimeException("Not matches Password");
         }
-        //토큰 발급해주기
+
+        // 토큰 발급해주기
         TokenDto tokenDto = jwtUtil.createAllToken(loginRequestDto.getEmail());
 
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByAccountEmail(loginRequestDto.getEmail());
 
-        if(refreshToken.isPresent()) {//로그아웃한 후 로그인을 다시하는건가
+        if(refreshToken.isPresent()) {// 로그아웃한 후 로그인을 다시하는건가
             RefreshToken refreshToken1 = refreshToken.get().updateToken(tokenDto.getRefreshToken());
             refreshTokenRepository.save(refreshToken1);
 
@@ -80,11 +78,10 @@ public class AccountService {
             RefreshToken newToken = new RefreshToken(tokenDto.getRefreshToken(), loginRequestDto.getEmail());
             refreshTokenRepository.save(newToken);
         }
-        //토큰 header에 넣어줘서 클라이언트에 전달하기
+        // 토큰 header에 넣어줘서 클라이언트에 전달하기
         setHeader(response, tokenDto);
 
         return new GlobalResponseDto("Success Login", HttpStatus.OK.value());
-
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {

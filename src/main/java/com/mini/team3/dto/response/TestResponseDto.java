@@ -5,10 +5,12 @@ import lombok.Getter;
 
 @Getter
 public class TestResponseDto {
+
     String data;
 
+
     public TestResponseDto(Comment comment) {
+
         this.data = comment.getComment();
     }
-
 }
