@@ -104,12 +104,12 @@ public class PostService {
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        List<TestResponseDto> test1 = new ArrayList<>();
+        List<CommentResponseDto> comment1 = new ArrayList<>();
         for (Post post : postsList){
             for(Comment comment : post.getComments()){
-                test1.add(new TestResponseDto(comment));
+                comment1.add(new CommentResponseDto(comment));
             }
-            postsList1.add(new PostResponseDto(post, test1));
+            postsList1.add(new PostResponseDto(post, comment1));
         }
         return postsList1;
     }
@@ -133,13 +133,27 @@ public class PostService {
             }
         }
         List<PostResponseDto> postsList1 = new ArrayList<>();
-        List<TestResponseDto> test1 = new ArrayList<>();
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
         for (Post post : postList){
             for(Comment comment : post.getComments()){
-                test1.add(new TestResponseDto(comment));
+                commentResponseDtos.add(new CommentResponseDto(comment));
             }
-            postsList1.add(new PostResponseDto(post, test1));
+            postsList1.add(new PostResponseDto(post, commentResponseDtos));
         }
         return postsList1;
+    }
+
+    // 게시글 상세조회
+    @Transactional
+    public PostResponseDto getOnePost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundPost)
+        );
+        List<CommentResponseDto> onePostComment = new ArrayList<>();
+        for(Comment comment : post.getComments()){
+            onePostComment.add(new CommentResponseDto(comment));
+        }
+        PostResponseDto postResponseDto = new PostResponseDto(post, onePostComment);
+        return postResponseDto;
     }
 }

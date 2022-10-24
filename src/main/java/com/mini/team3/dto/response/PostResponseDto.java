@@ -21,18 +21,18 @@ public class PostResponseDto {
     private String title;
     private String contents;
     private String tag;
-    private List<TestResponseDto> comments;
+    private List<CommentResponseDto> comments;
     private int postLike;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostResponseDto(Post post, List<TestResponseDto> testResponseDtos){
+    public PostResponseDto(Post post, List<CommentResponseDto> commentResponseDtos){
         this.postId = post.getPostId();
         this.accountName = post.getAccount().getAccountName();
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.tag = post.getTag();
-        this.comments = testResponseDtos;
+        this.comments = commentResponseDtos;
         this.postLike = post.getPostLikeCount();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();

@@ -66,4 +66,10 @@ public class PostController {
     ) {
         return postService.findTeamPosts(sort, userDetails.getAccount().getAccountTeam(), tag);
     }
+
+    // 게시글 상세조회
+    @GetMapping("/posts/{postId}")
+    public PostResponseDto getOnePost(@PathVariable Long postId) {
+        return postService.getOnePost(postId);
+    }
 }

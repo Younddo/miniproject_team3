@@ -7,6 +7,7 @@ import lombok.Getter;
 public class CommentResponseDto {
     private Long postId;
     private Long commentId;
+    private String accountName;
     private String comment;
 
     public CommentResponseDto(Long postId, Long commentId, String comment) {
