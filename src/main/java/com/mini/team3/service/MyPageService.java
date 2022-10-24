@@ -43,9 +43,9 @@ public class MyPageService {
 //내가 쓴 댓글 조회
 
         List <Comment> commentList = commentRepository.findCommentsByAccount(account);
-        List <TestResponseDto> test1 = new ArrayList<>();
+        List <CommentResponseDto> test1 = new ArrayList<>();
         for (Comment comment : commentList){
-            test1.add(new TestResponseDto(comment));
+            test1.add(new CommentResponseDto(comment));
         }
 //        List <Comment> commentList = account.getComments();
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();

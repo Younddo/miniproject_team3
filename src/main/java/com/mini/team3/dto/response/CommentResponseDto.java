@@ -12,10 +12,10 @@ public class CommentResponseDto {
 
 
     public CommentResponseDto(Comment comment){
-        this.postId = comment.getPost().getPostId();
-        this.comment = comment.getComment();
-        this.accountName = comment.getAccount().getAccountName();
-        this.commentId = comment.getCommentId();
+        this.postId=comment.getPost().getPostId();
+        this.commentId=comment.getCommentId();
+        this.accountName=comment.getAccount().getAccountName();
+        this.comment=comment.getComment();
 
     }
 }
