@@ -1,4 +1,4 @@
-package com.mini.team3.S3;
+package com.mini.team3.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
