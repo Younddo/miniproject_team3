@@ -8,6 +8,8 @@ import com.mini.team3.entity.Account;
 import com.mini.team3.entity.Comment;
 import com.mini.team3.entity.CommentLike;
 import com.mini.team3.entity.Post;
+import com.mini.team3.exception.CustomException;
+import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.CommentLikeRepository;
 import com.mini.team3.repository.CommentRepository;
 import com.mini.team3.repository.PostRepository;
@@ -28,7 +30,7 @@ public class CommentService {
     private final CommentLikeRepository commentLikeRepository;
 
     @Transactional
-    public ResponseEntity createComment(Long postId, CommentRequestDto commentRequestDto, Account currentAccount) {
+    public ResponseEntity<CommentResponseDto> createComment(Long postId, CommentRequestDto commentRequestDto, Account currentAccount) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 글 없음"));
         Comment comment = new Comment(commentRequestDto, post, currentAccount);
         commentRepository.save(comment);
@@ -42,7 +44,7 @@ public class CommentService {
     @Transactional
     public ResponseEntity deleteComment(Long commentId ,Account currentAccount) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
+                () -> new CustomException(ErrorCode.NotFoundComment)
         );
         if (comment.getAccount().getId().equals(currentAccount.getId())){
             commentRepository.deleteById(commentId);
@@ -51,7 +53,7 @@ public class CommentService {
                     HttpStatus.OK
             );
         }else {
-            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+            throw new CustomException(ErrorCode.CantDelete);
         }
     }
 
@@ -60,7 +62,7 @@ public class CommentService {
 
         String msg;
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+                () -> new CustomException(ErrorCode.NotFoundComment));
         Integer commentLikeSize = comment.getCommentLikes().size();
 
         Optional<CommentLike> commentLike = commentLikeRepository.findByCommentAndAccount(comment, currentAccount);

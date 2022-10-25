@@ -26,8 +26,6 @@ public class Account {
     @NotBlank
     private String accountPw;
     @NotBlank
-    private String accountPwConfirm;
-    @NotBlank
     private String accountTeam;
     private Boolean accountLeader;
 
@@ -52,7 +50,6 @@ public class Account {
         this.email = accountRequestDto.getEmail();
         this.accountName=accountRequestDto.getAccountName();
         this.accountPw = accountRequestDto.getAccountPw();
-        this.accountPwConfirm = accountRequestDto.getAccountPwConfirm();
         this.accountTeam=accountRequestDto.getAccountTeam();
         this.accountLeader=accountRequestDto.getAccountLeader();
     }
