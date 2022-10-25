@@ -6,6 +6,8 @@ import com.mini.team3.dto.response.GlobalResponseDto;
 import com.mini.team3.entity.Account;
 import com.mini.team3.entity.MyPage;
 import com.mini.team3.entity.RefreshToken;
+import com.mini.team3.exception.CustomException;
+import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.jwt.dto.TokenDto;
 import com.mini.team3.jwt.util.JwtUtil;
 import com.mini.team3.repository.AccountRepository;
@@ -33,13 +35,13 @@ public class AccountService {
     public GlobalResponseDto signup(AccountRequestDto accountRequestDto) {
         // email 중복 검사
         if(accountRepository.findByEmail(accountRequestDto.getEmail()).isPresent()){
-            throw new RuntimeException("Overlap Check");
+            throw new CustomException(ErrorCode.AlreadyHaveEmail);
         }
 
         // 비밀번호 일치 확인
         String password = accountRequestDto.getAccountPw();
         if(!password.equals(accountRequestDto.getAccountPwConfirm())){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.NotMatchPassword);
         }
 
         // 비밀번호 암호화해서 저장(법으로 정해져 있음)
@@ -57,12 +59,12 @@ public class AccountService {
     public GlobalResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
 
         Account account = accountRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(
-                () -> new RuntimeException("Not found Account")
+                () -> new CustomException(ErrorCode.NotFoundUser)
         );
 
         // 비밀번호 맞는지 확인
         if(!passwordEncoder.matches(loginRequestDto.getAccountPw(), account.getAccountPw())) {
-            throw new RuntimeException("Not matches Password");
+            throw new CustomException(ErrorCode.NotMatchPassword);
         }
 
         // 토큰 발급해주기

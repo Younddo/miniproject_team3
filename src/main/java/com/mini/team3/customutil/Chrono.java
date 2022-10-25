@@ -22,9 +22,9 @@ public class Chrono {
         }else if (gap < 60) {
             word = gap + "분 전";
         }else if (gap < 60 * 24){
-            word = gap + "시간 전";
+            word = (gap/60) + "시간 전";
         }else if (gap < 60 * 24 * 10) {
-            word = gap / 24 + "일 전";
+            word = (gap/60/24) + "일 전";
         } else {
             word = dayBefore.format(DateTimeFormatter.ofPattern("MM월 dd일"));
         }

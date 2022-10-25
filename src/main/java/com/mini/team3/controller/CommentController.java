@@ -2,6 +2,7 @@ package com.mini.team3.controller;
 
 import com.mini.team3.config.UserDetailsImpl;
 import com.mini.team3.dto.request.CommentRequestDto;
+import com.mini.team3.dto.response.CommentResponseDto;
 import com.mini.team3.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,11 @@ public class CommentController {
     public ResponseEntity createComment(@PathVariable Long postId,
                                         @RequestBody CommentRequestDto commentRequestDto,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         return commentService.createComment(postId, commentRequestDto ,userDetails.getAccount());
+//        ResponseEntity<T> a = commentService.createComment(postId, commentRequestDto ,userDetails.getAccount());
+//        a.getBody().getCommentId();
+//        return a;
     }
 
     @DeleteMapping("/{postId}/comments/{commentId}")

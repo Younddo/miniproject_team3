@@ -7,8 +7,9 @@ import com.mini.team3.entity.Comment;
 import com.mini.team3.entity.Post;
 import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
+import com.mini.team3.repository.CommentRepository;
 import com.mini.team3.repository.PostRepository;
-import com.mini.team3.s3.S3Uploader;
+import com.mini.team3.S3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final S3Uploader s3Uploader;
+
+    private final CommentRepository commentRepository;
 
     // 게시글 작성
     @Transactional
@@ -78,7 +81,7 @@ public class PostService {
     public List<PostResponseDto> findAllPosts(String sort, String accountTeam, String tag) {
         List<Post> postsList = new ArrayList<>();
         // 시간순 일 때
-        if (sort.equals("최신순")) {
+        if (sort.equals("createdAt")) {
             if (accountTeam.equals("All")) {
                 if (tag.equals("All")) {
                     postsList = postRepository.findAllByOrderByCreatedAtDesc();
@@ -92,7 +95,7 @@ public class PostService {
                     postsList = postRepository.findPostsByAccount_AccountTeamAndTagOrderByCreatedAtDesc(accountTeam, tag);
                 }
             }
-        } else if (sort.equals("좋아요순")) {
+        } else if (sort.equals("likeCount")) {
             if (accountTeam.equals("All")) {
                 if (tag.equals("All")) {
                     postsList = postRepository.findAllByOrderByPostLikeCountDescCreatedAtDesc();
@@ -160,4 +163,5 @@ public class PostService {
         PostResponseDto postResponseDto = new PostResponseDto(post, commentResponseDtos);
         return postResponseDto;
     }
+
 }

@@ -68,7 +68,7 @@ public class MyPageService {
     public ResponseEntity createOneSentence(@RequestBody MypageRequestDto mypageRequestDto, Account account) {
 
         MyPage myPage = mypageRepository.findById(account.getId()).orElseThrow(() ->
-                new IllegalArgumentException("마이페이지를 찾을 수 없습니다.")
+                new CustomException(ErrorCode.NotFoundMypage)
         );
         myPage.createOneSentence(mypageRequestDto, account);
 
@@ -84,7 +84,7 @@ public class MyPageService {
     @Transactional
     public ResponseEntity updateOneSentence(MypageRequestDto mypageRequestDto, Account account) {
         MyPage myPage = mypageRepository.findById(account.getId()).orElseThrow(
-                () -> new IllegalArgumentException("마이페이지를 찾을 수 없습니다.")
+                () -> new CustomException(ErrorCode.NotFoundMypage)
         );
 
         myPage.updateOneSentence(mypageRequestDto, account);

@@ -30,7 +30,7 @@ public class PostController {
                                         @RequestPart(value = "post") @Valid PostRequestDto postRequestDto,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         if (userDetails==null){
-            throw new CustomException(ErrorCode.NotFoundToken);
+            throw new CustomException(ErrorCode.UnAuthorized);
         }
         return postService.createPost(multipartFile, postRequestDto, userDetails.getAccount());
     }

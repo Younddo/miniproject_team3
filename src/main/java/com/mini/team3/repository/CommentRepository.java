@@ -10,4 +10,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findCommentsByAccount(Account account);
+
+    Comment getByCommentId(long l);
 }

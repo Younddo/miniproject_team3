@@ -1,5 +1,6 @@
 package com.mini.team3.config;
 
+import com.mini.team3.exception.AuthenticationEntryPointException;
 import com.mini.team3.jwt.filter.JwtAuthFilter;
 import com.mini.team3.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
 
+    private final AuthenticationEntryPointException authenticationEntryPointException;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
 
@@ -41,9 +44,11 @@ public class WebSecurityConfig {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        http.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPointException);
+
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/test").permitAll()
                 .anyRequest().authenticated() //permitAll을 제외한 API는 모두 인증 필요
 
 
@@ -51,6 +56,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+
 
     }
 }
