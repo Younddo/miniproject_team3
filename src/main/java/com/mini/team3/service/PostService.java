@@ -33,10 +33,17 @@ public class PostService {
     @Transactional
     public GlobalResponseDto createPost(MultipartFile multipartFile, PostRequestDto postRequestDto, Account account) throws IOException {
 
-        String img = s3Uploader.uploadFiles(multipartFile, "testdir1");
 
-        Post post = new Post(postRequestDto, account, img);
-        postRepository.save(post);
+
+        if(!(multipartFile==null)) {
+            String img = s3Uploader.uploadFiles(multipartFile, "testdir1");
+
+            Post post = new Post(postRequestDto, account, img);
+            postRepository.save(post);
+        }else{
+            Post post = new Post(postRequestDto, account);
+            postRepository.save(post);
+        }
 
         return new GlobalResponseDto("Success Post", HttpStatus.OK.value());
     }

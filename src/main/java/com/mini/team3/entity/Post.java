@@ -60,6 +60,13 @@ public class Post extends TimeStamped {
         this.img = img;
     }
 
+    public Post (PostRequestDto postRequestDto, Account account) {
+        this.account = account;
+        this.title = postRequestDto.getTitle();
+        this.contents = postRequestDto.getContents();
+        this.tag = postRequestDto.getTag();
+    }
+
     public void update (PostRequestDto postRequestDto, String img) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
