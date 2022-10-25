@@ -35,7 +35,7 @@ public class PostService {
 
         String img = s3Uploader.uploadFiles(multipartFile, "testdir1");
 
-        Post post = new Post(postRequestDto, account, null);
+        Post post = new Post(postRequestDto, account, img);
         postRepository.save(post);
 
         return new GlobalResponseDto("Success Post", HttpStatus.OK.value());
