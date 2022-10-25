@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ErrorResponseEntity {
     private int status;
     private String code;
