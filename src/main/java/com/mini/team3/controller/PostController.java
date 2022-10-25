@@ -1,5 +1,6 @@
 package com.mini.team3.controller;
 
+import com.google.gson.GsonBuilder;
 import com.mini.team3.config.UserDetailsImpl;
 import com.mini.team3.dto.request.PostRequestDto;
 import com.mini.team3.dto.response.GlobalResponseDto;
@@ -9,9 +10,13 @@ import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -20,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -27,11 +33,18 @@ public class PostController {
     // 게시글 작성
     @PostMapping("/posts")
     public GlobalResponseDto createPost(@RequestPart(value = "img", required = false) MultipartFile multipartFile,
-                                        @RequestPart(value = "post") @Valid PostRequestDto postRequestDto,
+                                        @RequestPart(value = "post") @Valid String json,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         if (userDetails==null){
             throw new CustomException(ErrorCode.UnAuthorized);
         }
+
+        log.info("안녕");
+
+        PostRequestDto postRequestDto = new GsonBuilder().serializeNulls().create().fromJson(json, PostRequestDto.class);
+
+        log.info(postRequestDto.getContents());
+
         return postService.createPost(multipartFile, postRequestDto, userDetails.getAccount());
     }
 
@@ -39,8 +52,11 @@ public class PostController {
     @PutMapping("/posts/{postId}")
     public PostUpdateDto updatePost(@PathVariable Long postId,
                                     @RequestPart(value = "img", required = false) MultipartFile multipartFile,
-                                    @RequestPart(value = "post") @Valid PostRequestDto postRequestDto,
+                                    @RequestPart(value = "post") @Valid String json,
                                     @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+
+        PostRequestDto postRequestDto = new GsonBuilder().serializeNulls().create().fromJson(json, PostRequestDto.class);
+
         return postService.updatePost(postId, multipartFile, postRequestDto, userDetails.getAccount());
     }
 

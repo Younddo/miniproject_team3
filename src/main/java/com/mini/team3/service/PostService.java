@@ -9,7 +9,7 @@ import com.mini.team3.exception.CustomException;
 import com.mini.team3.exception.ErrorCode;
 import com.mini.team3.repository.CommentRepository;
 import com.mini.team3.repository.PostRepository;
-import com.mini.team3.S3.S3Uploader;
+import com.mini.team3.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

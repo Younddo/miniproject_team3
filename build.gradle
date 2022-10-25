@@ -23,7 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -35,8 +35,11 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
-	//S3
-//	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	//s3
+	implementation'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	//Gson
+	implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 tasks.named('test') {
