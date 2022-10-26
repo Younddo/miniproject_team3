@@ -39,11 +39,9 @@ public class PostController {
             throw new CustomException(ErrorCode.UnAuthorized);
         }
 
-        log.info("안녕");
 
         PostRequestDto postRequestDto = new GsonBuilder().serializeNulls().create().fromJson(json, PostRequestDto.class);
 
-        log.info(postRequestDto.getContents());
 
         return postService.createPost(multipartFile, postRequestDto, userDetails.getAccount());
     }
