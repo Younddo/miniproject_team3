@@ -37,11 +37,13 @@ public class PostController {
                                         @RequestParam(value = "title") @Valid String title,
                                         @RequestParam(value = "contents") @Valid String contents,
                                         @RequestParam(value = "tag") @Valid String tag,
+//                                        @ModelAttribute PostRequestDto postRequestDto,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         if (userDetails == null) {
             throw new CustomException(ErrorCode.UnAuthorized);
         }
 
+//        PostRequestDto postRequestDto = new PostRequestDto(multipartFile, title, contents, tag);
         PostRequestDto postRequestDto = new PostRequestDto(multipartFile, title, contents, tag);
 //        PostRequestDto postRequestDto = new GsonBuilder().serializeNulls().create().fromJson(json, PostRequestDto.class);
 
