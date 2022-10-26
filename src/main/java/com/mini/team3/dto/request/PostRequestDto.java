@@ -10,7 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostRequestDto {
+    private MultipartFile multipartFile;
     private String title;
     private String contents;
     private String tag;
+
+
 }

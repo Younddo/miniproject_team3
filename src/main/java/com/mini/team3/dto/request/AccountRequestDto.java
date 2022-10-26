@@ -20,7 +20,7 @@ public class AccountRequestDto {
     private String accountName;
 
     @NotBlank(message = "비밀번호는 공백일 수 없습니다.")
-    @Size(min = 8, max = 16, message = "비밀번호는 8~!6 개의 문자만 허용합니다.")
+    @Size(min = 8, max = 16, message = "비밀번호는 8~16 개의 문자만 허용합니다.")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$"
             , message = "비밀번호는 무조건 영문, 숫자, 특수문자를 각각 1글자 이상 포함해야 합니다.")
     private String accountPw;

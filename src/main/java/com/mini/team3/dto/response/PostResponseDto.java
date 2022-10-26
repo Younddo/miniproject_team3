@@ -19,8 +19,12 @@ public class PostResponseDto {
     private String title;
     private String contents;
     private String tag;
+
+    private String accountTeam;
+
+    private Boolean accountLeader;
     private List<CommentResponseDto> comments;
-    private int postLike;
+    private int postLikeCount;
     private String createdAt;
     private String modifiedAt;
     private String img;
@@ -32,8 +36,10 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.tag = post.getTag();
+        this.accountTeam=post.getAccount().getAccountTeam();
+        this.accountLeader=post.getAccount().getAccountLeader();
         this.comments = commentResponseDtos;
-        this.postLike = post.getPostLikeCount();
+        this.postLikeCount = post.getPostLikeCount();
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
         this.img = post.getImg();
