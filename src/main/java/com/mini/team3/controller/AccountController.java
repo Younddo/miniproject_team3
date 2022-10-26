@@ -3,6 +3,7 @@ package com.mini.team3.controller;
 import com.mini.team3.config.UserDetailsImpl;
 import com.mini.team3.customutil.RandomSentence;
 import com.mini.team3.dto.request.AccountRequestDto;
+import com.mini.team3.dto.request.EmailRequestDto;
 import com.mini.team3.dto.request.LoginRequestDto;
 import com.mini.team3.dto.response.GlobalResponseDto;
 import com.mini.team3.jwt.util.JwtUtil;
@@ -28,6 +29,13 @@ public class AccountController {
     public GlobalResponseDto signup(@RequestBody @Valid AccountRequestDto accountRequestDto) {
         return accountService.signup(accountRequestDto);
     }
+
+    // 아이디 중복확인
+    @PostMapping("/check")
+    public GlobalResponseDto check(@RequestBody @Valid EmailRequestDto emailRequestDto) {
+        return accountService.check(emailRequestDto);
+    }
+
 
     // 로그인
     @PostMapping("/login")

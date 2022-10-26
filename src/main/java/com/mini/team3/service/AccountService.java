@@ -1,6 +1,7 @@
 package com.mini.team3.service;
 
 import com.mini.team3.dto.request.AccountRequestDto;
+import com.mini.team3.dto.request.EmailRequestDto;
 import com.mini.team3.dto.request.LoginRequestDto;
 import com.mini.team3.dto.response.GlobalResponseDto;
 import com.mini.team3.entity.Account;
@@ -33,10 +34,7 @@ public class AccountService {
 
     @Transactional
     public GlobalResponseDto signup(AccountRequestDto accountRequestDto) {
-        // email 중복 검사
-        if(accountRepository.findByEmail(accountRequestDto.getEmail()).isPresent()){
-            throw new CustomException(ErrorCode.AlreadyHaveEmail);
-        }
+
 
         // 비밀번호 일치 확인
         String password = accountRequestDto.getAccountPw();
@@ -89,6 +87,14 @@ public class AccountService {
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
         response.addHeader(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
         response.addHeader(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());
+    }
+
+    @Transactional
+    public GlobalResponseDto check(EmailRequestDto emailRequestDto) {
+        if (accountRepository.findByEmail(emailRequestDto.getEmail()).isPresent()) {
+            throw new CustomException(ErrorCode.AlreadyHaveEmail);
+        }
+        return new GlobalResponseDto("아이디 중복검사 통과", HttpStatus.OK.value());
     }
 }
 
