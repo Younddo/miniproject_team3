@@ -30,6 +30,7 @@ public class PostResponseDto {
     private String img;
 
 
+
     public PostResponseDto(Post post, List<CommentResponseDto> commentResponseDtos) {
         this.postId = post.getPostId();
         this.accountName = post.getAccount().getAccountName();
@@ -43,5 +44,6 @@ public class PostResponseDto {
         this.createdAt = Chrono.timesAgo(post.getCreatedAt());
         this.modifiedAt = Chrono.timesAgo(post.getModifiedAt());
         this.img = post.getImg();
+
     }
 }
