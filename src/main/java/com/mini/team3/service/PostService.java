@@ -33,7 +33,7 @@ public class PostService {
     @Transactional
     public GlobalResponseDto createPost(MultipartFile multipartFile, PostRequestDto postRequestDto, Account account) throws IOException {
 
-        if(!(account.getAccountLeader())&&postRequestDto.getTag().equals("notice")){
+        if(!(account.getAccountLeader())&&postRequestDto.getTag().equals("공지")){
                 throw new CustomException(ErrorCode.NotTeamLeader);
         }
 
@@ -53,11 +53,6 @@ public class PostService {
     // 게시글 수정
     @Transactional
     public PostUpdateDto updatePost(Long postId, MultipartFile multipartFile, PostRequestDto postRequestDto, Account account) throws IOException {
-
-        if(!(account.getAccountLeader())&&postRequestDto.getTag().equals("notice")){
-            throw new CustomException(ErrorCode.NotTeamLeader);
-        }
-
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost)
         );
