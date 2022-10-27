@@ -30,9 +30,9 @@ public class CommentService {
     private final CommentLikeRepository commentLikeRepository;
 
     @Transactional
-    public ResponseEntity<CommentResponseDto> createComment(Long postId, CommentRequestDto commentRequestDto, Account currentAccount) {
+    public ResponseEntity<CommentResponseDto> createComment(Long postId, CommentRequestDto commentRequestDto, Account account) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 글 없음"));
-        Comment comment = new Comment(commentRequestDto, post, currentAccount);
+        Comment comment = new Comment(commentRequestDto, post, account);
         commentRepository.save(comment);
 
         return new ResponseEntity(
@@ -42,11 +42,11 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseEntity deleteComment(Long commentId ,Account currentAccount) {
+    public ResponseEntity deleteComment(Long commentId ,Account account) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundComment)
         );
-        if (comment.getAccount().getId().equals(currentAccount.getId())){
+        if (comment.getAccount().getId().equals(account.getId())){
             commentRepository.deleteById(commentId);
             return new ResponseEntity(
                     new DataResponseDto("댓글 삭제가 완료되었습니다."),
@@ -58,23 +58,23 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseEntity likeComment(Long commentId, Account currentAccount) {
+    public ResponseEntity likeComment(Long commentId, Account account) {
 
         String msg;
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundComment));
         Integer commentLikeSize = comment.getCommentLikes().size();
 
-        Optional<CommentLike> commentLike = commentLikeRepository.findByCommentAndAccount(comment, currentAccount);
+        Optional<CommentLike> commentLike = commentLikeRepository.findByCommentAndAccount(comment, account);
 
         if (!commentLike.isPresent()) {
-            CommentLike newCommentLike = new CommentLike(comment, comment.getPost(), currentAccount);
+            CommentLike newCommentLike = new CommentLike(comment, comment.getPost(), account);
             comment.updateSize(commentLikeSize + 1);
             commentLikeRepository.save(newCommentLike);
             msg = "댓글 좋아요 완료";
 
         }else {
-            commentLikeRepository.deleteByCommentAndAccount(comment, currentAccount);
+            commentLikeRepository.deleteByCommentAndAccount(comment, account);
             msg = "댓글 좋아요 취소";
             comment.updateSize(commentLikeSize - 1);
         }

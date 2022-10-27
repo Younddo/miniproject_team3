@@ -52,14 +52,19 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public PostUpdateDto updatePost(Long postId, MultipartFile multipartFile, PostRequestDto postRequestDto, Account currentAccount) throws IOException {
+    public PostUpdateDto updatePost(Long postId, MultipartFile multipartFile, PostRequestDto postRequestDto, Account account) throws IOException {
+
+        if(!(account.getAccountLeader())&&postRequestDto.getTag().equals("notice")){
+            throw new CustomException(ErrorCode.NotTeamLeader);
+        }
+
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost)
         );
 
         String img = s3Uploader.uploadFiles(multipartFile, "testdir1");
 
-        if (post.getAccount().getEmail().equals(currentAccount.getEmail())) {
+        if (post.getAccount().getEmail().equals(account.getEmail())) {
             post.update(postRequestDto, img);
 
             return new PostUpdateDto(post);
@@ -70,11 +75,12 @@ public class PostService {
 
     // 게시물 삭제
     @Transactional
-    public GlobalResponseDto deletePost(Long postId, Account currentAccount) {
+    public GlobalResponseDto deletePost(Long postId, Account account) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new CustomException(ErrorCode.NotFoundPost)
         );
-        if (post.getAccount().getEmail().equals(currentAccount.getEmail())) {
+
+        if (post.getAccount().getEmail().equals(account.getEmail())) {
             postRepository.deleteById(postId);
             return new GlobalResponseDto("게시글 삭제가 완료되었습니다!", HttpStatus.OK.value());
         } else {
