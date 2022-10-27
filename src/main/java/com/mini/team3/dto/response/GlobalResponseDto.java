@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GlobalResponseDto {
 
-    private String msg;
+    private String message;
     private int statusCode;
 
 
-    public GlobalResponseDto(String msg, int statusCode) {
-        this.msg = msg;
+    public GlobalResponseDto(String message, int statusCode) {
+        this.message = message;
         this.statusCode = statusCode;
     }
 
