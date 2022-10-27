@@ -53,7 +53,7 @@ public class AccountService {
         return new GlobalResponseDto("Success signup", HttpStatus.OK.value());
     }
 
-    @Transactional
+
     public GlobalResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
 
         Account account = accountRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(
