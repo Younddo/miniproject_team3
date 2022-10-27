@@ -76,7 +76,7 @@ C반 구성원들끼리 자유롭게 소통하고📢 질문하고🙋 일상을
 
 게시글을 조건별로 정렬하여 조회하기 위해 좋아요갯수 등을 Post의 Column으로 관리하였습니다.
 
-## API Table
+## 📋 API Table
 |기능|method|URL|request|response|error code|
 |:-----:|:---|:---|:---|:---|:---|
 |홈|GET|/auth/home||{"goodWord": "팀원들과 예쁜말로 소통하고 있나요??","dday": -53}||
