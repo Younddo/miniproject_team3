@@ -72,11 +72,12 @@ Custom ErrorCode를 Enum으로 관리하여 프론트엔드와 명확하게 소�
 
 ## API Table
 |기능|method|URL|request|response|error code|
+|:---|:---|:---|:---|:---|:---|
 |홈|GET|/auth/home||{"goodWord": "팀원들과 예쁜말로 소통하고 있나요??","dday": -53}||
 |중복확인|POST|auth/check|{“email” : "you1dsf"}|{"msg": "사용가능한 아이디입니다","statusCode": 200}|{"status": 400,"code": "AlreadyHaveEmail","message": "이미 존재하는 아이디 입니다."}{"status": 400,"code": "Size","message": "아이디는 4~12 개의 문자만 허용합니다."}|
 |회원가입|POST|/auth/signup|{"email" : "you1dsf","accountName" : "짱윤서","accountPw" : "@weffs3424A","accountPwConfirm": "@weffs3424A","accountTeam": "3","accountLeader": false}|{"msg": "Success signup","statusCode": 200}|===비밀번호 조건이 부합하지 않을 때===[{"status": 400,"code": "NotBlank","message": "비밀번호는 공백일 수 없습니다."},{"status": 400,"code": "Size","message": "비밀번호는 8~!6 개의 문자만 허용합니다."},{"status": 400,"code": "Pattern","message": "비밀번호는 무조건 영문, 숫자, 특수문자를 각각 1글자 이상 포함해야 합니다."}]{"status": 400,"code": "NotMatchPassword","message": "비밀번호가 일치하지 않습니다."}|
 |로그인|POST|auth/login|{"email" : "you1dsf","accountPw" : "@weffs3424A"}|{"msg": "Success Login","statusCode": 200}|{"status": 400,"code": "NotMatchPassword","message": "비밀번호가 일치하지 않습니다."}{"status": 400,"code": "NotFoundUser","message": "아이디가 존재하지 않습니다."}|
-|게시글 작성|POST|api/posts|img : ~~~.jpg, "title" : "제목입니다", "contents" : "내용입니다", "tag” : “일상”|{"msg": "Success Post","statusCode": 200}||
+|게시글 작성|POST|api/posts|{img : ~~~.jpg, "title" : "제목입니다", "contents" : "내용입니다", "tag” : “일상”}|{"msg": "Success Post","statusCode": 200}||
 |게시글 수정|PUT|api/posts/{postId}|img : ~~~.jpg, "title" : "제목입니다", "contents" : "내용입니다", "tag” : “일상”|{"modifiedAt": "2022-11-21T14:24:52.4777783"}|{"status": 400,"code": "NotMatchUser","message": "작성자가 일치하지 않습니다"}|
 |게시글 삭제|DELETE|/api/posts/{postId}||{"msg": "게시글 삭제가 완료되었습니다!","statusCode": 200}|{"status": 400,"code": "NotMatchUser","message": "작성자가 일치하지 않습니다"}|
 |게시글 좋아요|GET|api/{postId}/like||{    "success": true, "data": "게시글 좋아요 완료",“likesCount”: 2, "myError": null}||
