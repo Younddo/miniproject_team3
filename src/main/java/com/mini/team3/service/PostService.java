@@ -33,7 +33,9 @@ public class PostService {
     @Transactional
     public GlobalResponseDto createPost(MultipartFile multipartFile, PostRequestDto postRequestDto, Account account) throws IOException {
 
-
+        if(!(account.getAccountLeader())&&postRequestDto.getTag().equals("notice")){
+                throw new CustomException(ErrorCode.NotTeamLeader);
+        }
 
         if(!(multipartFile==null)) {
             String img = s3Uploader.uploadFiles(multipartFile, "testdir1");
