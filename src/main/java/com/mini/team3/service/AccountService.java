@@ -35,6 +35,9 @@ public class AccountService {
     @Transactional
     public GlobalResponseDto signup(AccountRequestDto accountRequestDto) {
 
+        if (accountRepository.findByEmail(accountRequestDto.getEmail()).isPresent()) {
+            throw new CustomException(ErrorCode.AlreadyHaveEmail);
+        }
 
         // 비밀번호 일치 확인
         String password = accountRequestDto.getAccountPw();

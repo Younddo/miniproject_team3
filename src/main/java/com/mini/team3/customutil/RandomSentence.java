@@ -10,9 +10,12 @@ public class RandomSentence {
             "주 100시간을 밀도있게 집중하였나요??",
             "팀원들과 예쁜말로 소통하고 있나요??",
             "항해99 9기 C반 화이팅!",
-            "팀원들과 사이좋게, 으쌰으쌰~"};
+            "팀원들과 사이좋게, 으쌰으쌰~",
+            "프론트, 백 소통 잘 하고 계시죠?",
+            "힘내자 힘!",
+            "코딩에 흠뻑 빠져보아요"};
 
     public static String getSentence() {
-        return arr[(int)(Math.random() * 7)];
+        return arr[(int)(Math.random() * 10)];
     }
 }

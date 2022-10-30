@@ -10,7 +10,7 @@ public class CommentResponseDto {
     private Long commentId;
     private String accountName;
     private String comment;
-    private int commentLikes;
+    private int commentLike;
     private String createdAt;
 
 
@@ -19,7 +19,7 @@ public class CommentResponseDto {
         this.commentId=comment.getCommentId();
         this.accountName=comment.getAccount().getAccountName();
         this.comment=comment.getComment();
-        this.commentLikes = comment.getCommentLikeSize();
+        this.commentLike = comment.getCommentLikeSize();
         this.createdAt = Chrono.timesAgo(comment.getCreatedAt());
     }
 }
